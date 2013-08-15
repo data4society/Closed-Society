@@ -40,6 +40,7 @@ window.ncos = {
     ncos.Data.Stats.other = new ncos.Collections.NCOs(other);
     ncos.Data.Stats.cities = _.uniq(ncos.Data.ncos.fullCollection.pluck('locality'));
     stopSpinner();
+    ncos.root = '/Closed-Society/'
     ncos.rooter = new ncos.Routers.Main();
     Backbone.history.start({ pushState: true, root: ncos.root });
   },
