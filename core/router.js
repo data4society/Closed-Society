@@ -52,7 +52,7 @@ ncos.Routers.Main = Backbone.Router.extend({
     ncos.Views.currentLayout.view.addToStack(v);
 	},
   checks: function() {
-    this.list('Persons','persons','Персоналии','PersonsMainGrid')
+    this.list('Checks','checks','Проверки','ChecksGrid')
   },
   warnings: function() {
     this.dataInit('warnings');
