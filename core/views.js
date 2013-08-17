@@ -1,5 +1,5 @@
 // ROOT VIEW
-ncos.Views.AppLayout = Backbone.Layout.extend({
+ncos.Views.MainLayout = Backbone.Layout.extend({
   el: 'body',
 
   events: {
@@ -107,7 +107,7 @@ ncos.Views.StackView = Backbone.Layout.extend({
 });
 
 // NCOs-CHECKS MAIN GRID
-ncos.Views.ChecksGrid = Backbone.Layout.extend({
+/*ncos.Views.ChecksGrid = Backbone.Layout.extend({
 	events: {
 		'click .data-menu button:not(.active)': 'filterSanction',
 		'click .counter' : 'downloadCsv',
@@ -296,7 +296,7 @@ ncos.Views.ChecksGrid = Backbone.Layout.extend({
     $('button[data-section=checks]').tooltip({placement:'right'});
   }
 });
-
+*/
 ncos.Views.ChecksGrid = Backbone.NCOsMainGrid.extend({
 });
 /*

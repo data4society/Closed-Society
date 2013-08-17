@@ -19,14 +19,14 @@ ncos.Routers.Main = Backbone.Router.extend({
   },
   
 	list: function(colName,page,title,viewName) {
-		var c = new OIdb.Collections[colName]()
+		var c = new ncos.Collections[colName]()
 		this.dataInit(page)
 		this.setTitle(title)
 		console.log('Welcome to ' + page + ' section!')
 		this.routerFetch(c)
 		this.fetching.done(function () {
 			var v = new ncos.Views[viewName]({ collection: c, columns: ncos.Grids[colName] })
-			ncos.Views.currentLayout = new OIdb.Views.MainLayout({rootView: v}).render()
+			ncos.Views.currentLayout = new ncos.Views.MainLayout({rootView: v}).render()
 			ncos.State.layoutInitialized = true
 		})
 	},
@@ -52,9 +52,7 @@ ncos.Routers.Main = Backbone.Router.extend({
     ncos.Views.currentLayout.view.addToStack(v);
 	},
   checks: function() {
-    this.dataInit('checks');
-    var collection = ncos.Views.currentLayout.view.options.rootView.collection.fullCollection;
-    collection.reset(ncos.Data.checks.fullCollection.models);
+    this.list('Persons','persons','Персоналии','PersonsMainGrid')
   },
   warnings: function() {
     this.dataInit('warnings');
