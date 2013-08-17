@@ -1,6 +1,9 @@
 ncos.Routers.Main = Backbone.Router.extend({
   initialize: function() {
-  },
+		console.log('Router initialized!')
+		this.on("all", this.storeRoute)
+   	this.history = []
+	},
   routes: {
     '' : 'index',
     'about' : 'about',
@@ -160,7 +163,7 @@ ncos.Routers.Main = Backbone.Router.extend({
   },
     
   dataInit: function(page,list)	{
-  	if (!OIdb.State.layoutInitialized && list) {
+  	if (!ncos.State.layoutInitialized && list) {
   		this[list]()
   	}
   	this.setPage(page)
