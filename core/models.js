@@ -11,7 +11,7 @@ ncos.Models.NCO = Supermodel.Model.extend({
 ncos.Collections.NCOs = Backbone.PageableCollection.extend({
   model: ncos.Models.NCO,
   url: "http://ngo.ovdinfo.org/api/nco",
-  mode: 'client',
+  mode: 'server',
 	state: {
     pageSize: 30,
     sortKey: "name",
@@ -28,7 +28,7 @@ ncos.Collections.NCOs = Backbone.PageableCollection.extend({
 
 ncos.Models.Check = Supermodel.Model.extend({
   urlRoot: "http://ngo.ovdinfo.org/api/check",
-  page: "checks",
+  page: "server",
   idAttribute: '_id',
   clear: function() {
   	this.reset();
@@ -54,7 +54,7 @@ ncos.Models.Check = Supermodel.Model.extend({
 ncos.Collections.Checks = Backbone.PageableCollection.extend({
   model: ncos.Models.Check,
   url: "http://ngo.ovdinfo.org/api/check",
-  mode: 'client',
+  mode: 'server',
 	state: {
     pageSize: 30,
     sortKey: "ncoName",

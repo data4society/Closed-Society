@@ -17,6 +17,20 @@ ncos.Routers.Main = Backbone.Router.extend({
 		'data/cases/:id' : 'casesView',
 		'data/sanctions/:id' : 'sanctionsView'
   },
+  
+	list: function(colName,page,title,viewName) {
+		var c = new OIdb.Collections[colName]()
+		this.dataInit(page)
+		this.setTitle(title)
+		console.log('Welcome to ' + page + ' section!')
+		this.routerFetch(c)
+		this.fetching.done(function () {
+			var v = new ncos.Views[viewName]({ collection: c, columns: ncos.Grids[colName] })
+			ncos.Views.currentLayout = new OIdb.Views.MainLayout({rootView: v}).render()
+			ncos.State.layoutInitialized = true
+		})
+	},
+	
   index: function() {
   	ncos.rooter.navigate('/data/checks', {trigger: true});
   },
@@ -132,4 +146,49 @@ ncos.Routers.Main = Backbone.Router.extend({
 			}
   	}
   },
+  
+ //HELPERS
+	
+	routerFetch: function(c) {
+		var self = this;
+		ncos.State.notify('show','Загрузка данных...');
+		this.fetching = c.fetch().done(function(){
+			$('#info').append(' Выполнена ;)')
+			setTimeout(function(){
+				OIdb.State.notify('hide')
+			}, 2000);
+			self.fetching.collection = c;
+		});
+  },
+    
+  dataInit: function(page,list)	{
+  	if (!OIdb.State.layoutInitialized && list) {
+  		this[list]()
+  	}
+  	this.setPage(page)
+  },
+  
+  setPage: function(page) {
+  	$('.sidebar .active').removeClass('active')
+  	$('.sidebar li#' + page).addClass('active')
+  },
+  
+  setTitle: function(title) {
+  	$('.data-toolbox header').html('<b>' + title + '</b>')
+  },
+  
+  storeRoute: function(e) {
+    if(e != 'route') {
+    	this.history.push(Backbone.history.fragment)
+    }
+  },
+  
+  previous: function() {
+    if (this.history.length > 1) {
+      this.navigate(this.history[this.history.length - 2], false)
+      this.history.pop()
+    } else {
+      this.navigate(window.location.pathname.split('/')[1], true)
+    }
+  }
 });

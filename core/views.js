@@ -296,6 +296,9 @@ ncos.Views.ChecksGrid = Backbone.Layout.extend({
     $('button[data-section=checks]').tooltip({placement:'right'});
   }
 });
+
+ncos.Views.ChecksGrid = Backbone.NCOsMainGrid.extend({
+});
 /*
 // CHECKS-SUBMISSIONS MAIN GRID
 ncos.Views.ChecksSubmissionsGrid = Backbone.Layout.extend({

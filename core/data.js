@@ -5,8 +5,10 @@ window.ncos = {
   Routers: {},
 	Helpers: {},
 	Data: {},
+	Grids: {},
+	State: { layoutInitialized: false },
   init: function() {
-  	startSpinner();
+  	/*startSpinner();
     ncos.Data.ncos = new ncos.Collections.NCOs();
     ncos.Data.checks = new ncos.Collections.Checks();
     ncos.Data.cases = new ncos.Collections.Cases();
@@ -39,12 +41,11 @@ window.ncos = {
     ncos.Data.Stats.suspended = new ncos.Collections.NCOs(suspended);
     ncos.Data.Stats.other = new ncos.Collections.NCOs(other);
     ncos.Data.Stats.cities = _.uniq(ncos.Data.ncos.fullCollection.pluck('locality'));
-    stopSpinner();
-    ncos.root = '/Closed-Society/'
+    stopSpinner();*/
     ncos.rooter = new ncos.Routers.Main();
     Backbone.history.start({ pushState: true, root: ncos.root });
   },
-  root: '/'
+  root: '/Closed-Society/'
 };
 
 $(document).ready(function(){
@@ -322,3 +323,150 @@ function toCsv(objArray, sDelimiter, cDelimiter) {
  
 	return output;
 }
+
+ncos.State.notify = function(state, message, type) {
+	if (state=='show') {
+  	$('body').prepend('<div id="info" class="animated fadeInLeft ' + type + '"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-ok"></i> ' + message + '</div>');
+  	$('img.logo').repeat(500).toggleClass('loading');
+  }
+	else if (state=='show-hide') {
+		$('body').prepend('<div id="info" class="animated fadeInLeft ' + type + '"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-ok"></i> ' + message + '</div>');
+		$('img.logo').repeat(500).toggleClass('loading').until(6);
+		$('div#info').wait(3000).addClass('fadeOutLeft').wait(1000).remove(); 
+	}
+  else if (state=='hide') {
+    $('div#info').addClass('fadeOutLeft').wait(1000).remove();
+    $('img.logo').unrepeat();
+  }
+};
+
+Backbone.NCOsMainGrid = Backbone.Layout.extend({
+	initialize: function() {
+    this.grid = new Backgrid.Grid({
+    	row: Backgrid.ClickableRow,
+      columns: this.options.columns,
+      collection: this.options.collection
+    })
+    $(this.$el).append(this.grid.render().$el)
+    this.paginator = new Backgrid.Extension.Paginator({
+  		columns: this.options.columns,
+  		collection: this.options.collection
+		});
+		$(this.$el).append(this.paginator.render().$el);
+  },
+  afterRender: function() {
+    this.$el.addClass(this.options.class);
+    this.addButtons();
+    this.filters();
+  },
+  addButtons: function() {
+  
+  },
+  filter: function() {
+  
+  },
+  close: function() {
+    this.grid.remove()
+    this.remove()
+    this.unbind()
+  }
+});
+
+Backbone.Filter = Backgrid.Extension.ServerSideFilter.extend({
+	initialize: function (options) {
+  	Backgrid.requireOptions(options, ["collection"]);
+    Backbone.View.prototype.initialize.apply(this, arguments);
+    this.name = options.name || this.name;
+    this.placeholder = options.placeholder || this.placeholder;
+
+    var collection = this.collection, self = this;
+    if (Backbone.PageableCollection &&
+        collection instanceof Backbone.PageableCollection &&
+        collection.mode == "server") {
+    	if(_.isUndefined(collection.queryParams.query)) {
+    		collection.queryParams.query = {};
+    	}
+      collection.queryParams.query[this.name] = function () {
+      	var value = self.$el.find("input[type=text]").val();
+      	if(!_.isEmpty(value)){
+      		return JSON.stringify({ $regex: value, $options: 'i' });
+      	} else {
+      		return null;
+      	}
+      };
+    }
+  },
+  search: function (e) {
+  	if (e) e.preventDefault();
+    var data = { query: {} };
+    data.query[this.name] = JSON.stringify({ $regex: this.$el.find("input[type=text]").val(), $options: 'i' });
+    this.collection.fetch({data: data});
+  }
+});
+
+Backbone.SelectFilter = Backgrid.Extension.ServerSideFilter.extend({
+  className: "backgrid-filter form-select",
+	initialize: function (options) {
+  	Backgrid.requireOptions(options, ["collection"]);
+    Backbone.View.prototype.initialize.apply(this, arguments);
+    this.name = options.name || this.name;
+    this.placeholder = options.placeholder || this.placeholder;
+    var colUrl = this.collection.url.split( '/' ),
+   			colName = colUrl[colUrl.length - 1];
+		this.ajaxSettings = {
+			multiple: true,
+			width: 300,
+    	placeholder: this.placeholder,
+      minimumInputLength: 0,
+      ajax: {
+      	url: '/api/concurrent/distinct/' + colName + '/' + this.name,
+        dataType: 'json',
+        quietMillis: 100,
+        data: function (term, page) { // page is the one-based page number tracked by Select2
+        	return {
+          	query: term, //search term
+            page_limit: 10, // page size
+            page: page // page number
+          }
+        },
+        results: function (data, page) {
+          return {results: data.results};
+        }
+      },
+      formatResult: function (r) { return r.value; },
+      formatSelection: function (r) { return r.value; },
+      dropdownCssClass: "bigdrop",
+      escapeMarkup: function (r) { return r; }
+    }
+    var collection = this.collection, self = this;
+    if (Backbone.PageableCollection &&
+        collection instanceof Backbone.PageableCollection &&
+        collection.mode == "server") {
+    	if(_.isUndefined(collection.queryParams.query)) {
+    		collection.queryParams.query = {};
+    	}
+      collection.queryParams.query[this.name] = function () {
+        var values = _.pluck(self.$el.find('input').select2('data'),'id');
+        if(!_.isEmpty(values)){
+        	return JSON.stringify({ $all: values });
+        } else {
+          return null;
+        }
+      };
+    }
+  },
+  template: _.template('<input type="hidden" data-placeholder="<%- placeholder %>" name="<%- name %>" />'),
+  search: function (values) {
+    var data = { query: {} };
+    data.query[this.name] = JSON.stringify({ $all: values });
+    this.collection.fetch({data: data});
+  },
+  render: function () {
+		var self = this;
+    this.$el.empty().append(this.template({
+      name: this.name,
+      placeholder: this.placeholder
+    })).find('input').wait(0).select2(this.ajaxSettings).on('change',function(e){self.search(e.val)});
+    return this;
+  }
+});
