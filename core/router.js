@@ -1,6 +1,5 @@
 ncos.Routers.Main = Backbone.Router.extend({
   initialize: function() {
-		console.log('Router initialized!')
 		this.on("all", this.storeRoute)
    	this.history = []
 	},
@@ -21,16 +20,33 @@ ncos.Routers.Main = Backbone.Router.extend({
 		'data/sanctions/:id' : 'sanctionsView'
   },
   
-	list: function(colName,page,title,viewName) {
+	list: function(colName,columns,page,title,viewName,filter,section) {
 		var c = new ncos.Collections[colName]()
+		if (filter) {
+		  c.queryParams.query = {}
+		  c.queryParams.query['chronology.state'] = filter
+		}
 		this.dataInit(page)
 		this.setTitle(title)
-		console.log('Welcome to ' + page + ' section!')
 		this.routerFetch(c)
 		this.fetching.done(function () {
-			var v = new ncos.Views[viewName]({ collection: c, columns: ncos.Grids[colName] })
+			var v = new ncos.Views[viewName]({ collection: c, columns: ncos.Grids[columns] })
 			ncos.Views.currentLayout = new ncos.Views.MainLayout({rootView: v}).render()
 			ncos.State.layoutInitialized = true
+			if (section) ncos.Views.currentLayout.view.options.rootView.$el.find('button[data-section=' + section + ']').button('toggle')
+		})
+	},
+	
+	view: function(id,page,list,modelName,viewName,relations) {
+		var self = this,
+				relationsData = {}
+		this.dataInit(page,list)
+		this.fetching.done(function () {
+			var model = ncos.Models[modelName].create({_id:id})
+			model.fetch().done(function() {
+				var v = new ncos.Views[viewName]({model: model, collection: self.fetching.collection, relations: relations})
+				ncos.Views.currentLayout.view.addToStack(v)
+			})
 		})
 	},
 	
@@ -41,77 +57,37 @@ ncos.Routers.Main = Backbone.Router.extend({
 		ncos.rooter.navigate('/data/checks', {trigger: true});
 	},
 	about: function() {
-  	this.dataInit('checks');
-  	setTab('about');
+  	this.dataInit('about','checks');
   	var model = new Backbone.Model();
     var v = new ncos.Views.AboutPage({model:model});
     ncos.Views.currentLayout.view.addToStack(v);
 	},
 	report: function() {
-  	this.dataInit('checks');
-  	setTab('report');
+  	this.dataInit('report','checks');
   	var model = new Backbone.Model();
     var v = new ncos.Views.ReportPage({model:model});
     ncos.Views.currentLayout.view.addToStack(v);
 	},
   checks: function() {
-    this.list('Checks','checks','Проверки','ChecksGrid')
+    this.list('Checks','Checks','checks','Проверки','ChecksGrid')
   },
   warnings: function() {
-    this.dataInit('warnings');
-    var collection = ncos.Views.currentLayout.view.options.rootView.collection.fullCollection;
-    collection.reset(ncos.Data.checks.fullCollection.models);
-    matcher = function(m){ 
-			return _.contains(_.pluck(m.attributes.chronology, "state"),"предостережение");
-		};
-		collection.reset(collection.filter(matcher));
+    this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','предостережение','warnings')
   },
   suspended: function() {
-  	this.dataInit('suspended');
-    var collection = ncos.Views.currentLayout.view.options.rootView.collection.fullCollection;
-    collection.reset(ncos.Data.checks.fullCollection.models);
-    matcher = function(m){ 
-			return _.contains(_.pluck(m.attributes.chronology, "state"),"приостановление деятельности");
-		};
-		collection.reset(collection.filter(matcher));
+  	this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','приостановление деятельности','suspended')
   },
   submissions: function() {
-  	this.dataInit('submissions');
-    var collection = ncos.Views.currentLayout.view.options.rootView.collection.fullCollection;
-    collection.reset(ncos.Data.checks.fullCollection.models);
-    matcher = function(m){ 
-			return _.contains(_.pluck(m.attributes.chronology, "state"),"представление");
-		};
-		collection.reset(collection.filter(matcher));
+  	this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','представление','submissions')
   },
   cases: function() {
-  	this.dataInit('cases');
-    var collection = ncos.Views.currentLayout.view.options.rootView.collection.fullCollection;
-    collection.reset(ncos.Data.checks.fullCollection.models);
-    matcher = function(m){ 
-			return _.contains(_.pluck(m.attributes.chronology, "state"),"административное дело");
-		};
-		collection.reset(collection.filter(matcher));
+  	this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','административное дело','cases')
   },
   other: function() {
-  	this.dataInit('other');
-    var collection = ncos.Views.currentLayout.view.options.rootView.collection.fullCollection;
-    collection.reset(ncos.Data.checks.fullCollection.models);
-    matcher = function(m){ 
-    	var result = true;
-    	var values = _.pluck(m.attributes.chronology, "state");
-    	for (var i=0;i<values.length;i++) {
-    		result = result && _.contains(['предостережение','представление','административное дело','приостановление деятельности','',null],values[i]);
-    	}
-			return !result;
-		};
-		collection.reset(collection.filter(matcher));
+  	this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','иная санкция','other')
   },
   checksView: function(id) {
-  	this.dataInit('checks');
-    var check = ncos.Models.Check.create({_id:id});
-    var v = new ncos.Views.CheckPage({ model: check });
-    ncos.Views.currentLayout.view.addToStack(v);
+    this.view(id,'checks','ChecksGrid','Check','CheckPage',ncos.Grids.CheckSubGrids)
   },
   ncoView: function(id) {
   	this.dataInit('checks');
@@ -131,22 +107,6 @@ ncos.Routers.Main = Backbone.Router.extend({
     var v = new ncos.Views.SanctionPage({ model: sanction });
     ncos.Views.currentLayout.view.addToStack(v);
   },
-  dataInit: function(page) {
-  	if (_.isUndefined(ncos.Views.currentLayout)) {
-  		ncos.Data.checksShadow.reset(ncos.Data.checks.fullCollection.models);
-  		var v = new ncos.Views.ChecksGrid({ collection: ncos.Data.checksShadow });
-  		ncos.Views.currentLayout = new ncos.Views.AppLayout({rootView: v}).render();
-  		ncos.Views.currentLayout.view.options.page = 'checks'
-  		setTab('data');
-  		this.listenTo(ncos.Data.checksShadow, "reset", function (collection) {
-      	$('.counter').text('результат: ' + collection.fullCollection.length);
-      });
-      setButton(page);
-			if (page != 'checks') {
-				ncos.Views.currentLayout.view.options.rootView.setFilteredChecks();
-			}
-  	}
-  },
   
  //HELPERS
 	
@@ -156,7 +116,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 		this.fetching = c.fetch().done(function(){
 			$('#info').append(' Выполнена ;)')
 			setTimeout(function(){
-				OIdb.State.notify('hide')
+				ncos.State.notify('hide')
 			}, 2000);
 			self.fetching.collection = c;
 		});
@@ -170,8 +130,8 @@ ncos.Routers.Main = Backbone.Router.extend({
   },
   
   setPage: function(page) {
-  	$('.sidebar .active').removeClass('active')
-  	$('.sidebar li#' + page).addClass('active')
+		$('li.active').removeClass('active');
+  	$('#' + page).addClass('active');
   },
   
   setTitle: function(title) {

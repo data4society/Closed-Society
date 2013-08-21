@@ -4,43 +4,10 @@ window.ncos = {
   Views: {},
   Routers: {},
 	Helpers: {},
-	Data: {},
 	Grids: {},
 	State: { layoutInitialized: false },
   init: function() {
   	/*startSpinner();
-    ncos.Data.ncos = new ncos.Collections.NCOs();
-    ncos.Data.checks = new ncos.Collections.Checks();
-    ncos.Data.cases = new ncos.Collections.Cases();
-    ncos.Data.sanctions = new ncos.Collections.Sanctions();
-    ncos.Data.media = new ncos.Collections.Media();
-    ncos.Data.authorities = new ncos.Collections.Authorities();
-    ncos.Data.ncos.fetch({async:false});
-    ncos.Data.checks.fetch({async:false});
-    ncos.Data.cases.fetch({async:false});
-    ncos.Data.sanctions.fetch({async:false});
-    ncos.Data.media.fetch({async:false});
-    ncos.Data.authorities.fetch({async:false});
-    ncos.Data.checksShadow = ncos.Data.checks.clone();
-    ncos.Data.Stats = {};
-    var submissions = _.filter(ncos.Data.checks.fullCollection.models, function(m){ return _.contains(_.pluck(m.attributes.chronology, "state"),"представление"); });
-    var warnings = _.filter(ncos.Data.checks.fullCollection.models, function(m){ return _.contains(_.pluck(m.attributes.chronology, "state"),"предостережение"); });
-    var cases = _.filter(ncos.Data.checks.fullCollection.models, function(m){ return _.contains(_.pluck(m.attributes.chronology, "state"),"административное дело"); });
-    var suspended = _.filter(ncos.Data.checks.fullCollection.models, function(m){ return _.contains(_.pluck(m.attributes.chronology, "state"),"приостановление деятельности"); });
-    var other = _.filter(ncos.Data.checks.fullCollection.models, function(m){ 
-    	var values = _.pluck(m.attributes.chronology, "state");
-    	var result = true;
-    	for (var i=0;i<values.length;i++) {
-    		result = result && _.contains(['предостережение','представление','административное дело','приостановление деятельности','',null],values[i]);
-    	}
-			return !result; 
-		});
-    ncos.Data.Stats.submissions = new ncos.Collections.NCOs(submissions);
-    ncos.Data.Stats.warnings = new ncos.Collections.NCOs(warnings);
-    ncos.Data.Stats.cases = new ncos.Collections.NCOs(cases);
-    ncos.Data.Stats.suspended = new ncos.Collections.NCOs(suspended);
-    ncos.Data.Stats.other = new ncos.Collections.NCOs(other);
-    ncos.Data.Stats.cities = _.uniq(ncos.Data.ncos.fullCollection.pluck('locality'));
     stopSpinner();*/
     ncos.rooter = new ncos.Routers.Main();
     Backbone.history.start({ pushState: true, root: ncos.root });
@@ -49,7 +16,11 @@ window.ncos = {
 };
 
 $(document).ready(function(){
-  ncos.init();
+  $.getJSON('http://ngo.ovdinfo.org/api/stats/checks', function(data) {
+		ncos.State.Stats = data[0];
+	}).done(function() {
+		ncos.init();
+	});
   if ($(window).height() < 500) {
   	$(".branding").hide();
   }
@@ -82,16 +53,6 @@ $(document).ready(function(){
 	);
 });
 
-setTab = function(s) {
-	$('li.active').removeClass('active');
-  $('#' + s).addClass('active');
-};
-
-setButton = function(s) {
-	$('.btn.active').removeClass('active');
-  $('button[data-section="' + s + '"]').addClass('active');
-};
-
 startSpinner = function() {
 	var opts = {
   	lines: 15, // The number of lines to draw
@@ -121,7 +82,7 @@ stopSpinner = function() {
 	$(target).fadeOut('slow');
 }
 
-var ClickableRow = Backgrid.Row.extend({
+Backgrid.ClickableRow = Backgrid.Row.extend({
   events: {
     "click": "onClick"
   },
@@ -137,106 +98,117 @@ Backbone.on("rowclicked", function (model) {
 });
 
 
-var ncoFilter = Backgrid.Extension.ClientSideFilter.extend({
-	makeMatcher: function (query) {
-  	var regexp = new RegExp(query.trim().split(/^((http|https):\/\/)?[a-zа-я0-9]+([\-\.]{1}[a-zа-я0-9]+)*\.[a-zа-я]{2,5}(:[0-9]{1,5})?(\/.*)?$/).join("|"), "i");
-    return function (model) {
-    	var keys = this.fields || model.keys();
-    	for (var i = 0, l = keys.length; i < l; i++) {
-    		if (regexp.test(model.get(keys[i]) + "")) return true;
+Backgrid.Extension.ServerSideSearch = Backgrid.Extension.ServerSideFilter.extend({
+	initialize: function (options) {
+  	Backgrid.requireOptions(options, ["collection"]);
+    Backbone.View.prototype.initialize.apply(this, arguments);
+    this.name = options.name || this.name;
+    this.placeholder = options.placeholder || this.placeholder;
+
+    var collection = this.collection, self = this;
+    if (Backbone.PageableCollection &&
+        collection instanceof Backbone.PageableCollection &&
+        collection.mode == "server") {
+    	if(_.isUndefined(collection.queryParams.query)) {
+    		collection.queryParams.query = {};
     	}
-    	return false;
-   	};
+    	if(this.name.length>1) {
+    		var self = this;
+    		collection.queryParams.query['$or'] = function () {
+    			var value = self.$el.find("input[type=text]").val();
+    			if(!_.isEmpty(value)){
+    			  var values = [];
+    			  _.each(self.name, function(f,key){
+    			    values[key] = {};
+    			  	values[key][f] = {$regex: value, $options: 'i'};
+    			  });
+      			return JSON.stringify(values);
+      		} else {
+      			return null;
+      		}
+    		}
+    	} else {
+        collection.queryParams.query[this.name[0]] = function () {
+      		var value = self.$el.find("input[type=text]").val();
+      		if(!_.isEmpty(value)){
+      			return JSON.stringify({ $regex: value, $options: 'i' });
+      		} else {
+      			return null;
+      		}
+      	};
+      }
+    }
   }
 });
 
-  /**
-  	 ClientSideSelectFilter
-  **/
-
-var ClientSideSelectFilter = Backgrid.Extension.ClientSideSelectFilter = Backgrid.Extension.ClientSideFilter.extend({
-	
-	className: "backgrid-filter form-select",
-	
-	template: _.template('<div class="input-prepend input-append"><select title="<%- placeholder %>" class="selectpicker <%- field %>" style="width:300px"><% _.each(values, function(opt) { %><option value="<%= opt %>"><%= opt %></option><% }); %></select><span class="add-on"><a class="close" href="#">&times;</a></span></div>'),
-		
-	events: {
-		"click .close": function (e) {
-      e.preventDefault();
-      this.clear();
-    },
-		"change .selectpicker": "search",
-		"click li[rel=0]": function (e) {
-      this.clear();
-    },
-	},
-		
-	fields: null,
-		
-	initialize: function(options) {
-		Backgrid.Extension.ClientSideFilter.prototype.initialize.apply(this, arguments);
-		this.selectValues = _.chain(options.collection.pluck(options.fields)).flatten().uniq().value();
-		this.selectValues.sort();
-		if (_.contains(this.selectValues,'город Москва')) {
-			arrayMoveToFirst(this.selectValues,'город Санкт-Петербург');
-			arrayMoveToFirst(this.selectValues,'город Москва');
-			arrayMoveToFirst(this.selectValues,'');
-		}
-		if (!_.contains(this.selectValues,'')) {
-			this.selectValues.unshift('');
-		}
-		if (_.contains(this.selectValues,undefined)) {
-			delete this.selectValues[this.selectValues.indexOf(undefined)];
-		}
-	},
-		
-	makeMatcher: function (query) {
-    return function (model) {
-      var keys = this.fields;
-      if(_.isArray(model.get(keys))) {
-      	for (var i = 0, l = query.length; i < l; i++) {
-        	if (_.contains(model.get(keys), query)) return true;
-      	}
-      } else {
-      	if (query == model.get(keys)) return true;
-      }
-      return false;
-    };
+Backgrid.Extension.ServerSelectFilter = Backgrid.Extension.ServerSideFilter.extend({
+  className: "backgrid-filter form-select",
+	initialize: function (options) {
+  	Backgrid.requireOptions(options, ["collection"]);
+    Backbone.View.prototype.initialize.apply(this, arguments);
+    this.name = options.name || this.name;
+    this.placeholder = options.placeholder || this.placeholder;
+    var colUrl = this.collection.url.split( '/' ),
+   			colName = colUrl[colUrl.length - 1];
+		this.ajaxSettings = {
+			multiple: false,
+			allowClear: true,
+			width: 255,
+    	placeholder: this.placeholder,
+      minimumInputLength: 0,
+      initSelection : function (element, callback) {
+        var data = {id: element.val(), value: element.val()};
+        callback(data);
+    	},
+      ajax: {
+      	url: 'http://ngo.ovdinfo.org/api/distinct/' + colName + '/' + this.name,
+        dataType: 'json',
+        quietMillis: 100,
+        data: function (term, page) { // page is the one-based page number tracked by Select2
+        	return {
+          	query: term, //search term
+            page_limit: 10, // page size
+            page: page // page number
+          }
+        },
+        results: function (data, page) {
+          return {results: data.results};
+        }
+      },
+      formatResult: function (r) { return r.value; },
+      formatSelection: function (r) { return r.value; },
+      dropdownCssClass: "bigdrop",
+      escapeMarkup: function (r) { return r; }
+    }
+    var collection = this.collection, self = this;
+    if (Backbone.PageableCollection &&
+        collection instanceof Backbone.PageableCollection &&
+        collection.mode == "server") {
+    	if(_.isUndefined(collection.queryParams.query)) {
+    		collection.queryParams.query = {};
+    	}
+      collection.queryParams.query[this.name] = function () {
+        var values = self.$el.find('input').select2('data');
+        if(!_.isNull(values)){
+        	return JSON.stringify({ $all: [values.value] });
+        } else {
+          return null;
+        }
+      };
+    }
   },
-
-    /**
-       Takes the query from the search box, constructs a matcher with it and
-       loops through collection looking for matches. Reset the given collection
-       when all the matches have been found.
-    */
-  search: function () {
-    var matcher = _.bind(this.makeMatcher($(this.$el[0][0]).val()), this);
-    this.collection.reset(this.shadowCollection.filter(matcher), {reindex: false});
+  template: _.template('<input type="hidden" data-placeholder="<%- placeholder %>" name="<%- name %>" />'),
+  search: function (values) {
+    var data = { query: {} };
+    data.query[this.name] = JSON.stringify({ $all: values });
+    this.collection.fetch({data: data});
   },
-
-    /**
-       Clears the search box and reset the collection to its original.
-    */
-  clear: function () {
-    $(this.$el[0][0]).selectpicker('deselectAll');
-    this.collection.reset(this.shadowCollection.models, {reindex: false});
-  },
-    
-        /**
-       Renders a search form with a text box, optionally with a placeholder and
-       a preset value if supplied during initialization.
-    */
   render: function () {
+		var self = this;
     this.$el.empty().append(this.template({
       name: this.name,
-      placeholder: this.placeholder,
-      values: this.selectValues,
-      field: this.fields
-    }));
-    $(this.$el[0][0]).selectpicker({
-      width: '220px'
-    });
-    this.delegateEvents();
+      placeholder: this.placeholder
+    })).find('input').wait(0).select2(this.ajaxSettings).on('change',function(e){self.search(e.val)});
     return this;
   }
 });
@@ -340,7 +312,7 @@ ncos.State.notify = function(state, message, type) {
   }
 };
 
-Backbone.NCOsMainGrid = Backbone.Layout.extend({
+Backbone.MainGrid = Backbone.Layout.extend({
 	initialize: function() {
     this.grid = new Backgrid.Grid({
     	row: Backgrid.ClickableRow,
@@ -356,14 +328,7 @@ Backbone.NCOsMainGrid = Backbone.Layout.extend({
   },
   afterRender: function() {
     this.$el.addClass(this.options.class);
-    this.addButtons();
     this.filters();
-  },
-  addButtons: function() {
-  
-  },
-  filter: function() {
-  
   },
   close: function() {
     this.grid.remove()
@@ -372,101 +337,92 @@ Backbone.NCOsMainGrid = Backbone.Layout.extend({
   }
 });
 
-Backbone.Filter = Backgrid.Extension.ServerSideFilter.extend({
-	initialize: function (options) {
-  	Backgrid.requireOptions(options, ["collection"]);
-    Backbone.View.prototype.initialize.apply(this, arguments);
-    this.name = options.name || this.name;
-    this.placeholder = options.placeholder || this.placeholder;
-
-    var collection = this.collection, self = this;
-    if (Backbone.PageableCollection &&
-        collection instanceof Backbone.PageableCollection &&
-        collection.mode == "server") {
-    	if(_.isUndefined(collection.queryParams.query)) {
-    		collection.queryParams.query = {};
-    	}
-      collection.queryParams.query[this.name] = function () {
-      	var value = self.$el.find("input[type=text]").val();
-      	if(!_.isEmpty(value)){
-      		return JSON.stringify({ $regex: value, $options: 'i' });
-      	} else {
-      		return null;
-      	}
-      };
-    }
-  },
-  search: function (e) {
-  	if (e) e.preventDefault();
-    var data = { query: {} };
-    data.query[this.name] = JSON.stringify({ $regex: this.$el.find("input[type=text]").val(), $options: 'i' });
-    this.collection.fetch({data: data});
+Backbone.NCOModel = Supermodel.Model.extend({
+  idAttribute: '_id',
+  clear: function() {
+  	this.reset();
+    this.destroy();
   }
+})
+
+Backbone.NCOCollection = Backbone.PageableCollection.extend({
+  mode: 'server',
+	state: {
+    pageSize: 30,
+    sortKey: "name",
+    order: -1,
+  },
+	queryParams: {
+		currentPage: "page",
+		pageSize:	"per_page",
+		totalPages:	"total_pages",
+		totalRecords: "total_entries",
+		sortKey: "sort_by",
+	}
+})
+
+Backbone.SubGrid = Backbone.Layout.extend({
+	initialize: function() {
+    this.grid = new Backgrid.Grid({
+    	row: Backgrid.ClickableRow,
+      columns: this.options.columns,
+      collection: this.options.collection,
+    })
+    $(this.options.class).append(this.grid.render().$el)
+  },
+  close: function() {
+    this.grid.remove()
+    this.remove()
+    this.unbind()
+  }
+})
+
+Backbone.Page = Backbone.View.extend({
+	manage: true,
+  options: {
+    class: 'stack-item'
+  },
+  initialize: function() {
+    this.buildSubGrid();
+  	this.once('loaded', this.render);
+  },
+  beforeRender: function() {
+  	//this.buildSubGrid();
+  },
+  afterRender: function() {
+  	var self = this;
+    this.$el.addClass(this.options.class);
+    this.$el.css('background-color', 'rgba(255,255,255,0.8)');
+    this.$el.append();
+  },
+  buildSubGrid: function() {
+  	var self = this;
+  	var length = Object.size(this.options.relations);
+  	_.each(this.options.relations,function(relation){
+    	self.model[relation.settings.name]()
+			self.model['_' + relation.settings.name].fetch().done(function(){
+			  if (relation.settings.grid) {
+    		  self.insertView(new Backbone.SubGrid({collection:self.model['_' + relation.settings.name],columns:relation.columns,class:relation.settings.class}));
+    		}
+    		length -= 1;
+    		if (length == 0) self.trigger("loaded");
+    	})
+    })
+  },
+  serialize: function() {
+  	var self = this,
+  			relations = {}
+  	_.each(this.options.relations, function(relation) {
+  		relations[relation.settings.name] = self.model['_' + relation.settings.name]
+  	})
+  	return { model: this.model.attributes, relations: relations };
+	}
 });
 
-Backbone.SelectFilter = Backgrid.Extension.ServerSideFilter.extend({
-  className: "backgrid-filter form-select",
-	initialize: function (options) {
-  	Backgrid.requireOptions(options, ["collection"]);
-    Backbone.View.prototype.initialize.apply(this, arguments);
-    this.name = options.name || this.name;
-    this.placeholder = options.placeholder || this.placeholder;
-    var colUrl = this.collection.url.split( '/' ),
-   			colName = colUrl[colUrl.length - 1];
-		this.ajaxSettings = {
-			multiple: true,
-			width: 300,
-    	placeholder: this.placeholder,
-      minimumInputLength: 0,
-      ajax: {
-      	url: '/api/concurrent/distinct/' + colName + '/' + this.name,
-        dataType: 'json',
-        quietMillis: 100,
-        data: function (term, page) { // page is the one-based page number tracked by Select2
-        	return {
-          	query: term, //search term
-            page_limit: 10, // page size
-            page: page // page number
-          }
-        },
-        results: function (data, page) {
-          return {results: data.results};
-        }
-      },
-      formatResult: function (r) { return r.value; },
-      formatSelection: function (r) { return r.value; },
-      dropdownCssClass: "bigdrop",
-      escapeMarkup: function (r) { return r; }
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
     }
-    var collection = this.collection, self = this;
-    if (Backbone.PageableCollection &&
-        collection instanceof Backbone.PageableCollection &&
-        collection.mode == "server") {
-    	if(_.isUndefined(collection.queryParams.query)) {
-    		collection.queryParams.query = {};
-    	}
-      collection.queryParams.query[this.name] = function () {
-        var values = _.pluck(self.$el.find('input').select2('data'),'id');
-        if(!_.isEmpty(values)){
-        	return JSON.stringify({ $all: values });
-        } else {
-          return null;
-        }
-      };
-    }
-  },
-  template: _.template('<input type="hidden" data-placeholder="<%- placeholder %>" name="<%- name %>" />'),
-  search: function (values) {
-    var data = { query: {} };
-    data.query[this.name] = JSON.stringify({ $all: values });
-    this.collection.fetch({data: data});
-  },
-  render: function () {
-		var self = this;
-    this.$el.empty().append(this.template({
-      name: this.name,
-      placeholder: this.placeholder
-    })).find('input').wait(0).select2(this.ajaxSettings).on('change',function(e){self.search(e.val)});
-    return this;
-  }
-});
+    return size;
+};

@@ -12,7 +12,7 @@ ncos.Views.MainLayout = Backbone.Layout.extend({
   
   changeLayout: function(v) {
   	this.stackView.pop();
-  	setTab(v.currentTarget.id);
+  	ncos.rooter.setPage(v.currentTarget.id);
   	ncos.rooter.navigate('/' + v.currentTarget.id, {trigger: true});
   },
 
@@ -23,13 +23,12 @@ ncos.Views.MainLayout = Backbone.Layout.extend({
 	},	
 	
   addToStack: function(v) {
-    //var v = new ncos.Views.StackViewNcos({ text: 'something random' });
     this.stackView.push(v);
   },
 
   removeFromStack: function(ev) {
     this.stackView.pop();
-    setTab('data');
+    ncos.rooter.setPage('data');
   },
 
   initialize: function() {
@@ -80,7 +79,7 @@ ncos.Views.StackView = Backbone.Layout.extend({
     this.trigger('before:transitionIn', this, view);
     view.$el.addClass(this.options.inTransitionClass);
 		
-    view.render();
+    view.initialize();
 
     setTimeout(function() {
       this.trigger('transitionIn', this, view);
@@ -93,7 +92,7 @@ ncos.Views.StackView = Backbone.Layout.extend({
   transitionViewOut: function(view) {
     this.trigger('before:transitionOut', this, view);
     view.$el.addClass(this.options.outTransitionClass);
-		ncos.rooter.navigate('/data/' + ncos.Views.currentLayout.view.options.page, {trigger: false});
+		ncos.rooter.previous();
     setTimeout(function() {
       view.remove();
       this.trigger('transitionOut', this, view);
@@ -297,7 +296,127 @@ ncos.Views.StackView = Backbone.Layout.extend({
   }
 });
 */
-ncos.Views.ChecksGrid = Backbone.NCOsMainGrid.extend({
+ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
+  options: {
+    class: 'stack-item root-layout'
+  },
+  events: {
+		'click .data-menu button:not(.active)': 'filterSanction',
+		'click .counter' : 'downloadCsv'
+	},
+  filters: function() {
+    this.listenTo(this.options.collection,'reset',this.updateCounter);
+  	this.filterSector = new Backgrid.Extension.ServerSelectFilter({
+  		collection: this.options.collection,
+  		placeholder: "Направление деятельности",
+ 	 		name: 'sector'
+		});
+		$(this.$el).prepend(this.filterSector.render().el);
+  	this.filterRegion = new Backgrid.Extension.ServerSelectFilter({
+  		collection: this.options.collection,
+  		placeholder: "Регион",
+ 	 		name: 'region'
+		});
+		$(this.$el).prepend(this.filterRegion.render().el);
+  	this.filterSearch = new Backgrid.Extension.ServerSideSearch({
+  		collection: this.options.collection,
+  		placeholder: "Например: Мемориал",
+ 	 		name: ['ncoName','ncoFullName']
+		});
+		$(this.$el).prepend(this.filterSearch.render().el);
+  	$(this.$el).prepend('<span title="скачать данные" class="badge counter" data-toggle="tooltip">результат: ' + this.options.collection.state.totalRecords + '</span>');
+  	$(this.$el).prepend('<div class="btn-group data-menu" data-toggle="buttons-radio"><button type="button" title="В эту категорию попадают все НКО, подвергшиеся проверкам различных государственных органов." class="btn active" data-toggle="tooltip" data-section="checks" data-filter="all">Все проверки <span title="" class="label label-inverse tip-left">' + ncos.State.Stats.all + '</span></button><button type="button" title="В эту категорию попадают НКО, деятельность которых приостановлена министерством юстиции." class="btn" data-toggle="tooltip" data-section="suspended" data-filter="приостановление деятельности">Приостановление  <span title="" class="label label-inverse tip-left">' + ncos.State.Stats.suspended + '</span></button><button type="button" title="В эту категорию попадают НКО, против которых прокуратура или министерство юстиции возбужают административные дела о нерегистрации НКО в реестре «иностранных агентов»." class="btn" data-toggle="tooltip" data-section="cases" data-filter="административное дело">Административные дела  <span title="" class="label label-inverse tip-left">' + ncos.State.Stats.cases + '</span></button><button type="button" title="В эту категорию попадают НКО, которым прокуратура направила представление с требованием зарегистрироваться в реестре «иностранных агентов»." class="btn" data-toggle="tooltip" data-section="submissions" data-filter="представление">Представления  <span title="" class="label label-inverse tip-left">' + ncos.State.Stats.submissions + '</span></button><button type="button" title="В эту категорию попадают НКО, которым прокуратура направила предостережение о недопустимости нарушения законодательстве в сфере регистрации в реестре «иностранных агентов»." class="btn" data-toggle="tooltip" data-section="warnings" data-filter="предостережение">Предостережения <span title="" class="label label-inverse tip-left">' + ncos.State.Stats.warnings + '</span></button><button type="button" title="В эту категорию попадают НКО, против которых прокуратура или иные государственные органы применяет различные иные методы давления, не касающиеся реестра «иностранных агентов»." class="btn" data-toggle="tooltip" data-section="other" data-filter="иная санкция">Иные санкции <span title="" class="label label-inverse tip-left">' + ncos.State.Stats.other + '</span></button></div>');
+  },
+  setFiltered: function() {
+  	var self = this;
+  	this.grid.removeColumn(this.grid.columns.models);
+  	_.each(ncos.Grids.FilteredChecks, function(column) {
+  		self.grid.insertColumn(column);
+  	});
+  },
+  setAllChecks: function() {
+  	var self = this;
+  	this.grid.removeColumn(this.grid.columns.models);
+  	_.each(ncos.Grids.Checks, function(column) {
+  		self.grid.insertColumn(column);
+  	});
+  },
+  filterSanction: function(e) {
+    var self = this,
+    		query = this.collection.queryParams.query,
+    		currentSection = this.$el.find('button.active').data('section'),
+    		currentFilter = e.currentTarget.dataset.filter;
+    if (_.isUndefined(query)) query = {};
+    if (currentFilter == 'all') {
+  		delete query['chronology.state'];
+  	} else {
+  		query['chronology.state'] = currentFilter;
+  	}
+  	ncos.rooter.navigate('/data/' + e.currentTarget.dataset.section, {trigger: false});
+  	ncos.rooter.trigger('pseudo');
+  	this.collection.fetch().done(function() {
+  		if (e.currentTarget.dataset.section != 'checks' && currentSection == 'checks') {
+				self.setFiltered();
+  		}
+  		else if (e.currentTarget.dataset.section == 'checks' && currentSection != 'checks') {
+  			self.setAllChecks();
+  		}
+  	});
+  },
+  updateCounter: function() {
+  	this.$el.find('span.counter').text('результат: ' + this.options.collection.state.totalRecords);
+  },
+  downloadCsv: function() {
+  	var col = [],
+  	    source = this.collection.clone();
+  	source.queryParams = this.collection.queryParams;
+  	source.state = this.collection.state;
+  	delete source.state.pageSize;
+  	source.fetch().done(function(){
+  		source.models.forEach(function(m) {
+  			var n = _.clone(m.attributes);
+  			delete n._id;
+  			delete n.cid;
+  			delete n.nco_id;
+  			delete n.edited;
+  			delete n.created;
+  			delete n.chronology;
+  			delete n.authorities;
+  			delete n.name
+  			delete n.events
+  			delete n.ncoFullName
+  			delete n.attitude
+  			delete n.reason
+  			delete n.verified
+  			if (!_.isNull(n.date)) {
+  				n.date = moment(n.date,"X").format("DD.MM.YYYY");
+  			}
+  			if (!_.isNull(n.currentStateDate)) {
+  				n.currentStateDate = moment(n.currentStateDate,"X").format("DD.MM.YYYY");
+  			}
+  			changePropName(n,'ncoName','название НКО');
+  			changePropName(n,'sector','направления деятельности');
+  			changePropName(n,'region','регион');
+  			changePropName(n,'date','дата проверки');
+  			changePropName(n,'authoritiesName','проверяющие органы');
+  			changePropName(n,'currentStateDate','дата текущего статуса');
+  			changePropName(n,'currentState','текущий статус');
+  			changePropName(n,'currentStateSource','источник информации о текущем статусе');
+  			changePropName(n,'source','источник информации о проверке');
+  			changePropName(n,'description','примечание');
+  			col.push(n);
+  		});
+			var csv = toCsv(col,'"',';');
+			var blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+			saveAs(blob, "data.csv");
+		});
+  },
+  afterRender: function() {
+    this.$el.addClass(this.options.class);
+    this.filters();
+    $('span[data-toggle=tooltip],button[data-toggle=tooltip]:not(button[data-section=checks])').tooltip({placement:'bottom'});
+    $('button[data-section=checks]').tooltip({placement:'right'});
+  }
 });
 /*
 // CHECKS-SUBMISSIONS MAIN GRID
@@ -661,33 +780,8 @@ ncos.Views.NCOsMediaGrid = Backbone.View.extend({
 });
 
 // CHECK PAGE VIEW
-ncos.Views.CheckPage = Backbone.Layout.extend({
-  options: {
-    class: 'stack-item'
-  },
-	template: '#check-page',
-  initialize: function() {
-  	var self = this;
-  	self.model.cases();
-  	self.model.sanctions();
-  	self.model.nco();
-  	var cases = self.model._cases;
-  	var sanctions = self.model._sanctions;
-  	var nco = self.model._nco;
-  	setTimeout(function() {
-  		self.insertView(new ncos.Views.ChecksCasesGrid({collection:cases}));
-  		self.insertView(new ncos.Views.ChecksSanctionsGrid({collection:sanctions}));
-  		self.insertView(new ncos.Views.ChecksMediaGrid({collection:ncos.Data.media}));
-  	}, 500);
-  },
-  afterRender: function() {
-    this.$el.addClass(this.options.class);
-    this.$el.css('background-color', 'rgba(255,255,255,0.8)');
-    this.$el.append();
-  },
-  serialize: function() {
-  	return { check: this.model.attributes, cases: this.model._cases, sanctions: this.model._sanctions, nco: this.model._nco };
-	}
+ncos.Views.CheckPage = Backbone.Page.extend({
+	template: '#check-page'
 });
 
 // CHECK PAGE CASES GRID
@@ -1018,6 +1112,7 @@ ncos.Views.AboutPage = Backbone.Layout.extend({
   },
 	template: '#about-page',
   initialize: function() {
+		this.render();
   },
   afterRender: function() {
     this.$el.addClass(this.options.class);
@@ -1033,6 +1128,7 @@ ncos.Views.ReportPage = Backbone.Layout.extend({
   },
 	template: '#report-page',
   initialize: function() {
+		this.render();
   },
   afterRender: function() {
     this.$el.addClass(this.options.class);
