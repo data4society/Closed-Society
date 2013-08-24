@@ -48,14 +48,14 @@ height: 100%;
     margin: 0 0 5px;
     color: #777;
 }
-ul.filter {
+ul#filter {
 display: block;
 width: 200px;
 list-style-type: none;
 padding: 0px;
 margin: 0px;
 }
-ul.filter li {
+ul#filter li {
 width: 40px;
 height: 40px;
 background: #000;
@@ -66,6 +66,15 @@ line-height: 40px;
 text-align: center;
 font-weight: bolder;
 border-radius: 5px;
+opacity: .3;
+cursor: pointer;
+}
+ul#filter li.all {
+width: 190px;
+height: 40px;
+}
+ul#filter li.active, ul#filter li:hover {
+opacity: 1;
 }
   </style>
   </head>
@@ -89,11 +98,14 @@ border-radius: 5px;
     	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     	this.create();
     	//this.update();
+    	//L.DomUtil.get('filter').addEventListener('click',filterTrace);
+    	this._div.addEventListener('click',filterTrace);
     	return this._div;
 		};
 
 		info.create = function () {
-    	this._div.innerHTML = '<ul class="filter"> \
+    	this._div.innerHTML = '<ul id="filter"> \
+    		<li data-filter="all" class="all active">ВСЕ ПРОВЕРКИ</li> \
     		<li data-filter="Прокуратура">ПР</li> \
     		<li data-filter="Минюст">МЮ</li> \
     		<li data-filter="МВД">МВД</li> \
@@ -117,6 +129,22 @@ border-radius: 5px;
 
 		info.addTo(map);
 		
+		L.MarkerClusterGroup.include({
+		  filter: function (f) {
+        f = f || function (m) { return true; }
+        var markers = Array();
+        geoJsonLayer.eachLayer(function(l){
+            var a = l.feature;
+            if (!f(a)) { return true; }
+            var marker = L.marker(new L.LatLng(a.geometry.coordinates[1], a.geometry.coordinates[0]), {
+                icon: L.mapbox.marker.icon(),
+            });
+            markers.push(marker);
+        });
+        this.clearLayers();
+        this.addLayers(markers);
+    	}
+		});
 		var markers = L.markerClusterGroup();
 	
 		function handleGeoJSON() {
@@ -132,6 +160,27 @@ border-radius: 5px;
 		markers.on('click',function(e) {
 		  console.log(e)
 		});
+		
+		function filterTrace(e) {
+		  if (e.target.localName != "li" || e.target.className.indexOf('active') > -1) return false
+		  L.DomUtil.removeClass(e.target.parentNode.getElementsByClassName('active')[0],'active');
+		  e.target.className += ' active';
+		  console.log(geoJsonLayer)
+		  markers.filter(function(feature){
+		  	if(e.target.dataset.filter == 'all') {
+		  		return true;
+		  	} else {
+		    	var authorities = feature.properties.authorities;
+		    	if (authorities != null) {
+    		  	return feature.properties.authorities.indexOf(e.target.dataset.filter) > -1;
+    			} else {
+    		  	return false;
+    			}
+    		}
+			});
+		  console.log(e)
+		}
+		// document.getElementById('filter').getElementsByClassName('active').className.replace(/\bactive\b/,'');
     </script>
   </body>
 </html>
