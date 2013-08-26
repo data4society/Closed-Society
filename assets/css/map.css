@@ -83,3 +83,74 @@ ul#filter li {
 ul#filter li.active, ul#filter li:hover {
 	opacity: 1;
 }
+
+/* Sharing */
+
+.leaflet-control a.share {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWFJREFUeNrsmP1twjAQxVPUARiBEUAwAEwAG0AmQJmgI7SdIDACE+ABQHgERvAGcJYulRU1SvBHbKL3k07wh2P75d2dDVkGAAAAAAAAGDDzxeJGMfYx1ygRTVOKM4maDEVQJUo7NR2KIM2YndrYTvDRY53s6GNNseSNt5FfL5dDcoI4hUpOqVf5IVFFMEH8lsuWYXeKGW1EsZhzR0eaONBceagaKjumiuKO5SomelMQJEbw9y8PYl5yR/PpWdCRU1O7s3Ocy6opOAmiBZtqcN/kIMWJQvLzgl/AwxijKAobMSEcMg9JE8mbFC3PaTErGidtFw4laGlRB5LTTLos7F1Q7T72J4Yvn7qutpWDRspKdka5rh/CoUqQ/MeZ74ZanKXatk2K2qZV1gOhBIkODeCtBP3Guq57r6FYzqT6eyiuQ7UTPgkG51BUQb7+6XERlHtcO+/rbAIAAAAAAAD44CnAALi1c7yDFDGoAAAAAElFTkSuQmCC);
+	background-position: 1px 0px;
+	background-repeat: no-repeat;
+	background-size: 26px 26px;
+}
+
+.share-buttons {
+	clear: both;
+	border-bottom: 1px solid #e2e2e2;
+	margin-bottom: 10px;
+	padding: 15px 0;
+}
+
+.share-buttons a {
+	border-radius: 2px;
+	display: inline-block;
+	font-weight: bold;
+	height: 26px;
+	line-height: 26px;
+	padding-left: 30px;
+	text-decoration: none;
+	width: 48%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.share-buttons a.share-facebook {
+	color: #fff;
+	background-color: #3B5998;
+	margin-right: 4%;
+}
+
+.share-buttons a.share-facebook:hover {
+	background-color: #466EB2;
+}
+
+.share-buttons a.share-twitter {
+	color: #fff;
+	background-color: #4099FF;
+}
+
+.share-buttons a.share-twitter:hover {
+	background-color: #64B2FF;
+}
+
+.share-popup {
+	background: #fff;
+	padding: 20px;
+	z-index: 1000;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.share-popup h3 {
+	margin: 0px;
+}
+
+.share-popup small {
+	color: #666;
+}
+
+.share-popup textarea {
+	width: 100%;
+	height: 50px;
+}
+

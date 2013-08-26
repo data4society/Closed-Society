@@ -64,11 +64,79 @@ info.create = function () {
 
 info.update = function (props) {
 	this._div.childNodes.item(2).innerHTML = props ? 
-	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','проверена ') + getValue(props.sector,'sector','arr','деятельность: ') + getValue(props.currentCheckState,'state','state','текущий статус: <br />') 
+	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','проверена ') + getValue(props.sector,'sector','arr','деятельность: ') + getValue(props.currentCheckState,'state','state','текущий статус: <br />') + getValue(props.check,'more','link') 
   : 'Нажмите на маркер чтобы получить информацию об НКО';
 };
 
 info.addTo(map);
+
+var ShareControl = L.Control.extend({
+	options: {
+  	position: 'topleft',
+  	embed: '',
+    url: '',
+    text: ''
+	},
+	initialize: function(_, options) {
+		L.setOptions(this, options);
+	},
+	onAdd: function(map) {
+		this._map = map;
+		var container = L.DomUtil.create('div', 'leaflet-control-share leaflet-bar');
+		var link = L.DomUtil.create('a', 'share icon icon-share', container);
+		link.href = '#';
+		L.DomEvent.addListener(link, 'click', this._shareClick, this);
+		L.DomEvent.disableClickPropagation(container);
+		this._map.on('mousedown', this._clickOut, this);
+		return container;
+	},
+	_clickOut: function(e) {
+		if (this._popup) {
+			this._map.removeLayer(this._popup);
+			this._popup = null;
+			return;
+		}
+	},
+	_shareClick: function(e) {
+		L.DomEvent.stop(e);
+		if (this._popup) return this._clickOut(e);
+		var url = this.options.url || 'http://closedsociety.org',
+				text = this.options.text || 'Monitor pressure on Russian NGOs',
+				embed = this.options.embed || 'http://closedsociety.org/map.html',
+				twitter = 'http://twitter.com/intent/tweet?status=' + encodeURIComponent(text + '\n' + url),
+				facebook = 'https://www.facebook.com/sharer.php?u=' + encodeURIComponent(url) + '&t=' + encodeURIComponent(text),
+				share = "<a class='leaflet-popup-close-button' href='#close'>×</a>" +
+					"<h3>Поделиться этой картой</h3>" + "<div class='share-buttons'><a class='share-facebook icon icon-facebook' target='_blank' href='" + 
+					facebook + "'>Facebook</a>" + "<a class='share-twitter icon icon-twitter' target='_blank' href='" + 
+					twitter + "'>Twitter</a></div>" + "<h3>Получить embed код</h3>" + "<small>Скопирйте и вставьте этот HTML код на вашу страницу.</small>" +
+          "<textarea rows=4>&lt;iframe width='500' height='300' frameBorder='0' src='" + embed + "'&gt;&lt;/iframe&gt;</textarea>";
+		this._popup = L.marker(this._map.getCenter(), {
+			zIndexOffset: 10000,
+			icon: L.divIcon({
+				className: 'share-popup',
+				iconSize: L.point(360, 240),
+				iconAnchor: L.point(180, 120),
+				html: share
+			})
+    })
+		.on('mousedown', function(e) {
+			L.DomEvent.stopPropagation(e.originalEvent);
+		})
+		.on('click', clickPopup, this).addTo(this._map);
+		function clickPopup(e) {
+			if (e.originalEvent && e.originalEvent.target.nodeName === 'TEXTAREA') {
+				var target = e.originalEvent.target;
+				target.focus();
+				target.select();
+			} else if (e.originalEvent && e.originalEvent.target.getAttribute('href') === '#close') {
+				this._clickOut(e);
+			}
+		}
+	}
+});
+
+var share = new ShareControl();
+share.addTo(map);
 
 var geoJsonLayer = L.geoJson.ajax("http://closedsociety.org/api/geo/ncos",{dataType:"json"});
 geoJsonLayer.on('data:loaded',handleGeoJSON);
@@ -132,6 +200,8 @@ function getValue(val,name,type,label) {
 		} else {
 			return '';
 		}
+	} else if (type == 'link' && val != null) {
+		return '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/' + val + '" target="_blank">подробнее -></a></span>';
 	} else {
 		return '';
 	}
@@ -143,81 +213,3 @@ function dateFormat(date, format) {
 	format = format.replace("YYYY", date.getFullYear());
 	return format;
 }
-
-/*var ShareControl = L.Control.extend({
-	options: {
-  	position: 'topleft',
-    url: ''
-	},
-	initialize: function(_, options) {
-		L.setOptions(this, options);
-	},
-	onAdd: function(map) {
-		this._map = map;
-		var container = L.DomUtil.create('div', 'leaflet-control-mapbox-share leaflet-bar');
-		var link = L.DomUtil.create('a', 'mapbox-share mapbox-icon mapbox-icon-share', container);
-		link.href = '#';
-		L.DomEvent.addListener(link, 'click', this._shareClick, this);
-		L.DomEvent.disableClickPropagation(container);
-		this._map.on('mousedown', this._clickOut, this);
-		return container;
-  },
-
-    _clickOut: function(e) {
-        if (this._popup) {
-            this._map.removeLayer(this._popup);
-            this._popup = null;
-            return;
-        }
-    },
-
-    _shareClick: function(e) {
-        L.DomEvent.stop(e);
-
-        if (this._popup) return this._clickOut(e);
-
-        var tilejson = this._tilejson || this._map._tilejson || {},
-            twitter = 'http://twitter.com/intent/tweet?status=' +
-                encodeURIComponent(tilejson.name + '\n' + (tilejson.webpage || window.location)),
-            facebook = 'https://www.facebook.com/sharer.php?u=' +
-                encodeURIComponent(this.options.url || tilejson.webpage || window.location) +
-                '&t=' + encodeURIComponent(tilejson.name),
-            share =
-                "<a class='leaflet-popup-close-button' href='#close'>×</a>" +
-                ("<h3>Share this map</h3>" +
-                    "<div class='mapbox-share-buttons'><a class='mapbox-share-facebook mapbox-icon mapbox-icon-facebook' target='_blank' href='{{facebook}}'>Facebook</a>" +
-                    "<a class='mapbox-share-twitter mapbox-icon mapbox-icon-twitter' target='_blank' href='{{twitter}}'>Twitter</a></div>")
-                    .replace('{{twitter}}', twitter)
-                    .replace('{{facebook}}', facebook) +
-                ("<h3>Get the embed code</h3>" +
-                "<small>Copy and paste this HTML into your website or blog.</small>") +
-                "<textarea rows=4>{{value}}</textarea>"
-                    .replace('{{value}}', ("&lt;iframe width='500' height='300' frameBorder='0' src='{{embed}}'&gt;&lt;/iframe&gt;"
-                        .replace('{{embed}}', tilejson.embed || window.location)));
-
-        this._popup = L.marker(this._map.getCenter(), {
-            zIndexOffset: 10000,
-            icon: L.divIcon({
-                className: 'mapbox-share-popup',
-                iconSize: L.point(360, 240),
-                iconAnchor: L.point(180, 120),
-                html: share
-            })
-        })
-        .on('mousedown', function(e) {
-            L.DomEvent.stopPropagation(e.originalEvent);
-        })
-        .on('click', clickPopup, this).addTo(this._map);
-
-        function clickPopup(e) {
-            if (e.originalEvent && e.originalEvent.target.nodeName === 'TEXTAREA') {
-                var target = e.originalEvent.target;
-                target.focus();
-                target.select();
-            } else if (e.originalEvent && e.originalEvent.target.getAttribute('href') === '#close') {
-                this._clickOut(e);
-            }
-            L.DomEvent.stop(e.originalEvent);
-        }
-    }
-});*/
