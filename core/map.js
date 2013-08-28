@@ -1,29 +1,91 @@
-var map = L.map('map');
-		map.spin(true);
+var map = L.map('map'),
+		markerSize = 20,
+		iconsPath = "/images/map/";
+
+map.spin(true);
 
 map.addLayer(L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'))
 	.setView([55, 50], 5);
 
 map.attributionControl.setPrefix('').addAttribution('По данным <a href="http://closedsociety.org" target="_blank">closedsociety.org</a>.');
 
+L.spriteIcon = function(marker) {
+	var color = '';
+	switch (marker) {
+		case 1:
+			color = 'blue';
+			break;
+		case 2:
+			color = 'purple';
+			break;
+		case 4:
+			color = 'green';
+			break;
+		case 8:
+			color = 'orange';
+			break;
+		case 16:
+			color = 'yellow';
+			break;
+		case 32:
+			color = 'red';
+			break;
+		default:
+			break;
+	}
+	return L.icon({
+		className: "leaflet-sprite leaflet-sprite-" + color,
+		iconSize: [24, 41],
+		shadowsize: [41, 41],
+		iconAnchor: [12, 41],
+		iconUrl: 'assets/img/blank.png',
+		shadowUrl: L.Icon.Default.imagePath + "/marker-shadow.png"
+	});
+};
+
 L.MarkerClusterGroup.include({
 	filter: function (f) {
 		f = f || function (m) { return true; }
-		var markers = Array();
+		var markersArr = Array();
 		geoJsonLayer.eachLayer(function(l){
 			var a = l.feature;
 			if (!f(a)) { return true; }
 			var marker = L.marker(new L.LatLng(a.geometry.coordinates[1], a.geometry.coordinates[0]), {
-				icon: new L.Icon.Default(),
+				icon: new L.spriteIcon(a.properties.marker),
 				properties: a.properties
 			});
-			markers.push(marker);
+			markersArr.push(marker);
 		});
 		this.clearLayers();
-		this.addLayers(markers);
+		this.addLayers(markersArr);
 	}
 });
-var markers = L.markerClusterGroup();
+
+var markers = L.markerClusterGroup({
+	showCoverageOnHover: false,
+	/*iconCreateFunction: function(cluster) {
+		var murkersOfCluster = cluster.getAllChildMarkers();
+		var l0 = murkersOfCluster.length;
+		var byteInt = 0;
+		var byteInt0;
+		for(var i=0;i<l0;i++){
+			if(murkersOfCluster[i].feature){
+				byteInt0 = murkersOfCluster[i].feature.properties.marker;
+			}
+			else{
+				byteInt0 = murkersOfCluster[i].options.properties.marker;
+			}
+			byteInt = byteInt | byteInt0;
+		}
+		console.log(byteIntToString(byteInt));
+		return new L.DivIcon({
+			iconSize: [2*markerSize, 2*markerSize],
+			iconAnchor: [markerSize, markerSize],
+			className: "cluster",
+			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
+		});
+	}*/
+});
 		
 L.control.fullscreen({
 	position: 'topleft',
@@ -212,4 +274,13 @@ function dateFormat(date, format) {
 	format = format.replace("MM", (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1));
 	format = format.replace("YYYY", date.getFullYear());
 	return format;
+}
+
+function byteIntToString(byteInt){
+	var str = "";
+	for(var i=0;i<6;i++){
+		str = (byteInt%2)+str;
+		byteInt=(byteInt-byteInt%2)/2;
+	}
+	return str;
 }
