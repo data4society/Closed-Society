@@ -11,7 +11,7 @@ var iconsPath = "/images/map/";
 L.MarkerClusterGroup.include({
 	filter: function (f) {
 		f = f || function (m) { return true; }
-		var markers = Array();
+		var markersArr = Array();
 		geoJsonLayer.eachLayer(function(l){
 			var a = l.feature;
 			if (!f(a)) { return true; }
@@ -19,34 +19,35 @@ L.MarkerClusterGroup.include({
 				icon: new L.Icon.Default(),
 				properties: a.properties
 			});
-			marker.marker = a.properties.marker;
-			console.log(marker.marker);
-			markers.push(marker);
+			markersArr.push(marker);
 		});
 		this.clearLayers();
-		this.addLayers(markers);
+		this.addLayers(markersArr);
 	}
 });
 var markers = L.markerClusterGroup({
-	iconCreateFunction: function(cluster) {
+	/*iconCreateFunction: function(cluster) {
 		var murkersOfCluster = cluster.getAllChildMarkers();
 		var l0 = murkersOfCluster.length;
 		var byteInt = 0;
+		var byteInt0;
 		for(var i=0;i<l0;i++){
-			if(murkersOfCluster[i].marker == undefined){
-				console.log("aaaa");
+			if(murkersOfCluster[i].feature){
+				byteInt0 = murkersOfCluster[i].feature.properties.marker;
 			}
-			byteInt = byteInt | murkersOfCluster[i].marker;
+			else{
+				byteInt0 = murkersOfCluster[i].options.properties.marker;
+			}
+			byteInt = byteInt | byteInt0;
 		}
-		//console.log(byteInt);
-		//console.log(byteIntToString(byteInt));
+		console.log(byteIntToString(byteInt));
 		return new L.DivIcon({
 			iconSize: [2*markerSize, 2*markerSize],
 			iconAnchor: [markerSize, markerSize],
 			className: "cluster",
 			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
 		});
-	}
+	}*/
 });
 function byteIntToString(byteInt){
 	var str = "";
