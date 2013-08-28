@@ -6,6 +6,8 @@ map.addLayer(L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'))
 
 map.attributionControl.setPrefix('').addAttribution('По данным <a href="http://closedsociety.org" target="_blank">closedsociety.org</a>.');
 
+var markerSize = 20;
+var iconsPath = "/images/map/";
 L.MarkerClusterGroup.include({
 	filter: function (f) {
 		f = f || function (m) { return true; }
@@ -17,13 +19,43 @@ L.MarkerClusterGroup.include({
 				icon: new L.Icon.Default(),
 				properties: a.properties
 			});
+			marker.marker = a.properties.marker;
+			console.log(marker.marker);
 			markers.push(marker);
 		});
 		this.clearLayers();
 		this.addLayers(markers);
 	}
 });
-var markers = L.markerClusterGroup();
+var markers = L.markerClusterGroup({
+	iconCreateFunction: function(cluster) {
+		var murkersOfCluster = cluster.getAllChildMarkers();
+		var l0 = murkersOfCluster.length;
+		var byteInt = 0;
+		for(var i=0;i<l0;i++){
+			if(murkersOfCluster[i].marker == undefined){
+				console.log("aaaa");
+			}
+			byteInt = byteInt | murkersOfCluster[i].marker;
+		}
+		//console.log(byteInt);
+		//console.log(byteIntToString(byteInt));
+		return new L.DivIcon({
+			iconSize: [2*markerSize, 2*markerSize],
+			iconAnchor: [markerSize, markerSize],
+			className: "cluster",
+			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
+		});
+	}
+});
+function byteIntToString(byteInt){
+	var str = "";
+	for(var i=0;i<6;i++){
+		str = (byteInt%2)+str;
+		byteInt=(byteInt-byteInt%2)/2;
+	}
+	return str;
+}
 		
 L.control.fullscreen({
 	position: 'topleft',
