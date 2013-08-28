@@ -7,7 +7,7 @@ map.spin(true);
 map.addLayer(L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'))
 	.setView([55, 50], 5);
 
-map.attributionControl.setPrefix('').addAttribution('По данным <a href="http://closedsociety.org" target="_blank">closedsociety.org</a>.');
+map.attributionControl.setPrefix('').addAttribution('<a class="logo" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />По данным <a href="http://closedsociety.org" target="_blank">ИАИ "Закрытое общество"</a>.');
 
 L.spriteIcon = function(marker) {
 	var color = '';
@@ -95,7 +95,7 @@ L.control.fullscreen({
 var info = L.control();
 
 info.onAdd = function (map) {
-	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+	this._div = L.DomUtil.create('div', 'info');
 	this.create();
 	this.update();
 	this._div.addEventListener('click',filter);
@@ -126,11 +126,28 @@ info.create = function () {
 
 info.update = function (props) {
 	this._div.childNodes.item(2).innerHTML = props ? 
-	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','проверена ') + getValue(props.sector,'sector','arr','деятельность: ') + getValue(props.currentCheckState,'state','state','текущий статус: <br />') + getValue(props.check,'more','link') 
+	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','проверена ') + getValue(props.authorities,'authorities','arr','проверяющие органы: ') + getValue(props.sector,'sector','arr','деятельность: ') + getValue(props.currentCheckState,'state','state','текущий статус: <br />') + getValue(props.check,'more','link') 
   : 'Нажмите на маркер чтобы получить информацию об НКО';
 };
 
 info.addTo(map);
+
+var legend = L.control({position:'bottomleft'});
+
+legend.onAdd = function (map) {
+	this._div = L.DomUtil.create('div', 'legend');
+	this._div.innerHTML = '<ul id="legend"> \
+		<li><span class="red"></span> - деятельность НКО приостановлена</li> \
+		<li><span class="violet"></span> - возбуждено административное дело</li> \
+		<li><span class="orange"></span> - НКО получившие предостережения</li> \
+		<li><span class="yellow"></span> - НКО получившие представления</li> \
+		<li><span class="green"></span> - иные методы давления</li> \
+		<li><span class="blue"></span> - нет информации</li> \
+		</ul>';
+	return this._div;
+};
+
+legend.addTo(map);
 
 var ShareControl = L.Control.extend({
 	options: {
@@ -241,7 +258,7 @@ function getValue(val,name,type,label) {
 	} else if (val > 0 && type == 'date') {
 		var date = new Date(parseInt(val)*1000);
 		return '<span class="date ' + name + '">' + label + dateFormat(date, 'DD.MM.YYYY') + '</span>';
-	} else if (type == 'arr') {
+	} else if (type == 'arr' && val != null) {
 		var i = 0,
 				output = '<span class="' + name + '">' + label + '</span><ul class="' + name + '">';
 		for (i; i < val.length; i++) {
