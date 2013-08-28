@@ -6,41 +6,6 @@ map.addLayer(L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'))
 
 map.attributionControl.setPrefix('').addAttribution('По данным <a href="http://closedsociety.org" target="_blank">closedsociety.org</a>.');
 
-
-L.spriteIcon = function(marker) {
-	var color = '';
-	switch (marker) {
-		case 1:
-			color = 'blue';
-			break;
-		case 2:
-			color = 'purple';
-			break;
-		case 4:
-			color = 'green';
-			break;
-		case 8:
-			color = 'orange';
-			break;
-		case 16:
-			color = 'yellow';
-			break;
-		case 32:
-			color = 'red';
-			break;
-		default:
-			break;
-	}
-	return L.icon({
-		className: "leaflet-sprite leaflet-sprite-" + color,
-		iconSize: [24, 41],
-		shadowsize: [41, 41],
-		iconAnchor: [12, 41],
-		iconUrl: 'assets/img/blank.png',
-		shadowUrl: L.Icon.Default.imagePath + "/marker-shadow.png"
-	});
-};
-
 L.MarkerClusterGroup.include({
 	filter: function (f) {
 		f = f || function (m) { return true; }
@@ -49,7 +14,7 @@ L.MarkerClusterGroup.include({
 			var a = l.feature;
 			if (!f(a)) { return true; }
 			var marker = L.marker(new L.LatLng(a.geometry.coordinates[1], a.geometry.coordinates[0]), {
-				icon: new L.spriteIcon(a.properties.marker),
+				icon: new L.Icon.Default(),
 				properties: a.properties
 			});
 			markers.push(marker);
@@ -58,7 +23,7 @@ L.MarkerClusterGroup.include({
 		this.addLayers(markers);
 	}
 });
-var markers = L.markerClusterGroup({showCoverageOnHover: false});
+var markers = L.markerClusterGroup();
 		
 L.control.fullscreen({
 	position: 'topleft',
