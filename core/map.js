@@ -38,7 +38,7 @@ L.spriteIcon = function(marker) {
 		iconSize: [24, 41],
 		shadowsize: [41, 41],
 		iconAnchor: [12, 41],
-		iconUrl: 'assets/img/blank.png',
+		iconUrl: '../assets/img/blank.png',
 		shadowUrl: L.Icon.Default.imagePath + "/marker-shadow.png"
 	});
 };
