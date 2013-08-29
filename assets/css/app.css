@@ -574,7 +574,16 @@ ul.sidebar-menu {
 	border-right: none;
 	top: 110px;
 }
-
+div.menu ul.sidebar-menu {
+	width: 275px;
+	background: rgba(255, 255, 255, 0.5);
+}
+div.menu ul.sidebar-menu li.menu {
+	background: rgba(244, 243, 241, 0.1);
+}
+div.menu ul.sidebar-menu li.menu:hover {
+	background: #fff;
+}
 li.menu {
 	height:14px;
 	padding: 10px;
