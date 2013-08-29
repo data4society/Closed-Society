@@ -7,7 +7,7 @@ ncos.Routers.Main = Backbone.Router.extend({
     '' : 'index',
     'about' : 'about',
     'report': 'report',
-    'data' : 'dataMain',
+    'data/' : 'dataMain',
 		'data/checks' : 'checks',
 		'data/suspended' : 'suspended',
 		'data/warnings' : 'warnings',
