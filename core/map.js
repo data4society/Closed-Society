@@ -68,7 +68,7 @@ L.MarkerClusterGroup.include({
 
 var markers = L.markerClusterGroup({
 	showCoverageOnHover: false,
-	/*iconCreateFunction: function(cluster) {
+	iconCreateFunction: function(cluster) {
 		var murkersOfCluster = cluster.getAllChildMarkers();
 		var l0 = murkersOfCluster.length;
 		var byteInt = 0;
@@ -89,7 +89,7 @@ var markers = L.markerClusterGroup({
 			className: "cluster",
 			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
 		});
-	}*/
+	}
 });
 		
 var legendposition = iframe ? 'bottomleft' : 'bottomright',
