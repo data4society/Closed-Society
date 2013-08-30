@@ -290,7 +290,7 @@ function getValue(val,name,type,label) {
 			return '';
 		}
 	} else if (type == 'link' && val != null) {
-		return '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/' + val + '" target="_blank">подробнее -></a></span>';
+		return '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/' + val + '"' + iframe ? 'target="_blank"' : '' + '>подробнее -></a></span>';
 	} else {
 		return '';
 	}

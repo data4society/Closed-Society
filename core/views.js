@@ -1132,8 +1132,22 @@ ncos.Views.CalendarPage = Backbone.Layout.extend({
   afterRender: function() {
     this.$el.addClass(this.options.class);
     this.$el.css('background-color', 'rgba(255,255,255,0.9)');
-    this.$el.append();
-    
+    this.$el.append(); 
+  }
+});
+
+ncos.Views.NewsLibertyPage = Backbone.Layout.extend({
+  options: {
+    class: 'stack-item about'
+  },
+	template: '#news-liberty-page',
+  initialize: function() {
+		this.render();
+  },
+  afterRender: function() {
+    this.$el.addClass(this.options.class);
+    this.$el.css('background-color', 'rgba(255,255,255,0.9)');
+    this.$el.append(); 
   }
 });
 
