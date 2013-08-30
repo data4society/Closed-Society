@@ -343,9 +343,3 @@ $.fn.eventCalendar.defaults = {
 	jsonData: "",
 	cacheJson: true
 };
-
-$(document).ready(function() {
-	$("#calendar-wrapper").eventCalendar({
-		eventsjson: 'http://hidden-springs-4417.herokuapp.com/api/events'
-	});
-});

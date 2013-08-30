@@ -1121,6 +1121,24 @@ ncos.Views.AboutPage = Backbone.Layout.extend({
   }
 });
 
+ncos.Views.CalendarPage = Backbone.Layout.extend({
+  options: {
+    class: 'stack-item about'
+  },
+	template: '#calendar-page',
+  initialize: function() {
+		this.render();
+		$("#calendar-wrapper").eventCalendar({
+			eventsjson: 'http://hidden-springs-4417.herokuapp.com/api/events'
+		});
+  },
+  afterRender: function() {
+    this.$el.addClass(this.options.class);
+    this.$el.css('background-color', 'rgba(255,255,255,0.9)');
+    this.$el.append();
+  }
+});
+
 // REPORT PAGE VIEW
 ncos.Views.ReportPage = Backbone.Layout.extend({
   options: {

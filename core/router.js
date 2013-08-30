@@ -64,6 +64,12 @@ ncos.Routers.Main = Backbone.Router.extend({
     var v = new ncos.Views.AboutPage({model:model});
     ncos.Views.currentLayout.view.addToStack(v);
 	},
+	calendar: function() {
+  	this.dataInit('calendar','checks');
+  	var model = new Backbone.Model();
+    var v = new ncos.Views.CalendarPage({model:model});
+    ncos.Views.currentLayout.view.addToStack(v);
+	},
 	report: function() {
   	this.dataInit('report','checks');
   	var model = new Backbone.Model();
