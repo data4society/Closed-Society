@@ -1133,6 +1133,7 @@ ncos.Views.CalendarPage = Backbone.Layout.extend({
     this.$el.addClass(this.options.class);
     this.$el.css('background-color', 'rgba(255,255,255,0.9)');
     this.$el.append();
+    
   }
 });
 

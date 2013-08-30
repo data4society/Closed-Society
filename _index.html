@@ -13,14 +13,16 @@
     <meta property="og:image" content="http://closedsociety.org/img/birds.jpg">
     <meta name="description" content="ИАИ “Закрытое общество” - независимая инициатива, ставящая перед собой задачу вести мониторинг давления на институты гражданского общества в России со стороны государственных органов.">
     <meta property="og:description" content="ИАИ “Закрытое общество” - независимая инициатива, ставящая перед собой задачу вести мониторинг давления на институты гражданского общества в России со стороны государственных органов.">
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="libs/animate/animate.min.css">
-    <link rel="stylesheet" href="libs/backgrid/backgrid.min.css">
-    <link rel="stylesheet" href="libs/backgrid/extensions/paginator/backgrid-paginator.min.css">
-    <link rel="stylesheet" href="libs/backgrid/extensions/filter/backgrid-filter.min.css">
-    <link rel="stylesheet" href="libs/select2/select2.css">
+    <link rel="stylesheet" href="/Closed-Society/assets/css/app.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/animate/animate.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/backgrid/backgrid.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/backgrid/extensions/paginator/backgrid-paginator.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/backgrid/extensions/filter/backgrid-filter.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/bootstrap/plugins/bootstrap-select/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/Closed-Society/libs/select2/select2.css">
+    <link rel="stylesheet" href="/Closed-Society/assets/css/libertycalendar.css">
   </head>
   <body class="left data">
     <div id="branding"></div>
@@ -38,6 +40,9 @@
           <li id="about" class="menu">
             <label>О проекте</label><small class="description dd">Об информационно-аналитической инициативе “Закрытое общество”</small>
           </li>
+          <li id="calendar" class="menu">
+            <label>Календарь судов</label><small class="description dd">Календарь ближайших судов НКО от радиостанции "Свобода"</small>
+          </li>
           <li id="eng" class="menu comingsoon"><span>coming soon</span>
             <label>English version</label><small class="description dd">Russian non-commercial organisation's inspections database and map </small>
           </li>
@@ -52,7 +57,7 @@
           </li>
         </ul>
         <div class="branding">
-          <div class="partners">партнеры проекта</div><a href="http://memo.ru" target="_blank"> <img src="assets/img/memo_logo.png"></a><a href="http://sos-hrd.org" target="_blank"> <img src="assets/img/cor_logo.png" style="padding-left:5px;"></a><a href="http://yhrm.org" target="_blank"> <img src="assets/img/yhrm_logo.png" style="padding-top:10px;"></a>
+          <div class="partners">партнеры проекта</div><a href="http://memo.ru" target="_blank"> <img src="/Closed-Society/assets/img/memo_logo.png"></a><a href="http://sos-hrd.org" target="_blank"> <img src="/Closed-Society/assets/img/cor_logo.png" style="padding-left:5px;"></a><a href="http://yhrm.org" target="_blank"> <img src="/Closed-Society/assets/img/yhrm_logo.png" style="padding-top:10px;"></a>
           <div class="cc"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">ClosedSociety.org</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">data4society</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons Attribution 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://closedsociety.org" rel="dct:source">http://closedsociety.org</a>.</div>
         </div>
       </div>
@@ -68,27 +73,28 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="libs/misc/spin.min.js"></script>
-    <script type="text/javascript" src="libs/jquery/plugins/timing/jquery-timing.min.js"></script>
-    <script type="text/javascript" src="libs/moment/moment.min.js"></script>
-    <script type="text/javascript" src="libs/misc/Blob.js"></script>
-    <script type="text/javascript" src="libs/misc/FileSaver.min.js"></script>
-    <script type="text/javascript" src="libs/underscore/underscore.min.js"></script>
-    <script type="text/javascript" src="libs/backbone/backbone.min.js"></script>
-    <script type="text/javascript" src="libs/backbone/plugins/layoutmanager/backbone.layoutmanager.min.js"></script>
-    <script type="text/javascript" src="libs/backbone/plugins/supermodel/supermodel.min.js"></script>
-    <script type="text/javascript" src="libs/backgrid/backgrid.min.js"></script>
-    <script type="text/javascript" src="libs/backgrid/extensions/paginator/backgrid-paginator.min.js"></script>
-    <script type="text/javascript" src="libs/backgrid/extensions/moment-cell/backgrid-moment-cell.min.js"></script>
-    <script type="text/javascript" src="libs/backgrid/extensions/filter/backgrid-filter.js"></script>
-    <script type="text/javascript" src="libs/backbone/plugins/pageable/backbone-pageable.min.js"></script>
-    <script type="text/javascript" src="libs/select2/select2.js"></script>
-    <script type="text/javascript" src="libs/select2/select2_locale_ru.js"></script>
-    <script type="text/javascript" src="core/data.js"></script>
-    <script type="text/javascript" src="core/models.js"></script>
-    <script type="text/javascript" src="core/views.js"></script>
-    <script type="text/javascript" src="core/router.js"></script> 
-    <script type="text/javascript" src="core/schema/gridschema.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/misc/spin.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/jquery/plugins/timing/jquery-timing.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/misc/Blob.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/misc/FileSaver.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/underscore/underscore.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backbone/backbone.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backbone/plugins/layoutmanager/backbone.layoutmanager.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backbone/plugins/supermodel/supermodel.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backgrid/backgrid.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backgrid/extensions/paginator/backgrid-paginator.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backgrid/extensions/moment-cell/backgrid-moment-cell.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backgrid/extensions/filter/backgrid-filter.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/backbone/plugins/pageable/backbone-pageable.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/select2/select2.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/select2/select2_locale_ru.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/data.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/models.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/views.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/router.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/schema/gridschema.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/libertycalendar.js"></script>
     		<script id="nco-page" type="text/template">
       <div class="row controls">
       <button class="btn" id="goback"><i class="icon-arrow-left"></i> Назад</button>
@@ -437,6 +443,25 @@
       <p>Идея и реализация: <a href="http://data4society.org" target=_blank>Data4Society</a>
       </div>
 		</script>
+		<script id="calendar-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>О проекте</h3><br /><h4>Информационно-аналитическая инициатива “Закрытое общество”</h4></div>
+      <div class="span6 prose">
+      <div id="calendar-wrapper">
+      </div>
+      <script>
+      setTimeout(function(){
+    		$("#calendar-wrapper").eventCalendar({
+					eventsjson: 'http://hidden-springs-4417.herokuapp.com/api/events'
+				})
+			},1000);
+      </script>
+      </div>
+		</script>
 		<script id="report-page" type="text/template">       
       <div class="row controls">
       <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
@@ -445,6 +470,14 @@
       <div class="row">
       <iframe src="https://docs.google.com/forms/d/1HTQ4tTrUTKuZQ2Anyrc93ggbBJO4UnIKnoHTCh_LHUY/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
       </div>
+		</script>
+    <script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-41907823-1', 'closedsociety.org');
+			ga('send', 'pageview');
 		</script>
   </body>
 </html>
