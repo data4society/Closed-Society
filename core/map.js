@@ -82,7 +82,6 @@ var markers = L.markerClusterGroup({
 			}
 			byteInt = byteInt | byteInt0;
 		}
-		console.log(byteIntToString(byteInt));
 		return new L.DivIcon({
 			iconSize: [2*markerSize, 2*markerSize],
 			iconAnchor: [markerSize, markerSize],
