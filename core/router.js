@@ -6,6 +6,8 @@ ncos.Routers.Main = Backbone.Router.extend({
   routes: {
     '' : 'index',
     'about(/)' : 'about',
+    'calendar(/)': 'calendar',
+    'news-radio-liberty(/)': 'newsLiberty',
     'report(/)': 'report',
     'data(/)' : 'dataMain',
 		'data/checks(/)' : 'checks',
