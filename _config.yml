@@ -1,7 +1,7 @@
-baseurl: /Closed-Society
+baseurl: ''
 permalink: pretty
 markdown: rdiscount
 prose:
   rooturl: '_posts'
-  siteurl: 'http://data4society.github.io/closed-society/'
+  siteurl: 'http://closedsociety.org/'
   media: 'media'
