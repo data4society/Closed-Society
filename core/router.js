@@ -72,9 +72,11 @@ ncos.Routers.Main = Backbone.Router.extend({
 	},
 	newsLiberty: function() {
   	this.dataInit('news-radio-liberty','checks');
-  	var model = new Backbone.Model();
-    var v = new ncos.Views.NewsLibertyPage({model:model});
-    ncos.Views.currentLayout.view.addToStack(v);
+  	this.fetching.done(function () {
+  		var model = new Backbone.Model();
+    	var v = new ncos.Views.NewsLibertyPage({model:model});
+   		ncos.Views.currentLayout.view.addToStack(v);
+    })
 	},
 	report: function() {
   	this.dataInit('report','checks');
