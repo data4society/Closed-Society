@@ -1,3 +1,65 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Closed Society</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+    <link href='libs/leaflet/plugins/markercluster/MarkerCluster.css' rel='stylesheet' />
+    <link href='libs/leaflet/plugins/markercluster/MarkerCluster.Default.css' rel='stylesheet' />
+    <link href='libs/leaflet/plugins/fullscreen/Control.FullScreen.css' rel='stylesheet' />
+    <link href='assets/css/map.css' rel='stylesheet' />
+    <link href='assets/css/app.css' rel='stylesheet'>
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src='libs/leaflet/plugins/markercluster/leaflet.markercluster.js'></script>
+    <script src='libs/leaflet/plugins/fullscreen/Control.FullScreen.js'></script>
+    <script src='libs/leaflet/plugins/ajax/leaflet.ajax.min.js'></script>
+    <script src='libs/misc/spin.min.js'></script>
+    <script src='libs/leaflet/plugins/spin/leaflet.spin.js'></script>
+  </head>
+
+  <body>
+  	
+    <div id='map'><div id='loader'></div></div>
+    <div class="menu">
+    	<div class="logo">ClosedSociety.org</div>
+    	<div class="slogan">Мониторинг давления на НКО</div>
+      <ul style="display:block;" class="sidebar-menu">
+        <li id="map-item" class="menu">
+          <label>Карта проверок</label><small class="description dd">Проверки некоммерческих организаций органами власти на карте</small>
+        </li>
+        <a href="data">
+        	<li id="data" class="menu">
+          	<label>База данных</label><small class="description dd">Список некоммерческих организаций проверенных органами власти</small>
+        	</li>
+        </a>
+        <a href="report">
+        	<li id="report" class="menu">
+          	<label>Сообщить о проверке</label><small class="description dd">Сообщите о проверке некоммерческой организации</small>
+        	</li>
+        </a>
+        <a href="calendar">
+        	<li id="calendar" class="menu">
+          	<label>Календарь судов</label><small class="description dd">Календарь ближайших судов НКО от радиостанции "Свобода"</small>
+        	</li>
+        </a>
+        <a href="news">
+        	<li id="news-radio-liberty" class="menu">
+          	<label>Новости Свободы</label><small class="description dd">Новости радио "Свобода" из раздела Власть против НКО</small>
+        	</li>
+        </a>
+        <a href="about">
+        	<li id="about" class="menu">
+          	<label>О проекте</label><small class="description dd">Об информационно-аналитической инициативе “Закрытое общество”</small>
+        	</li>
+        </a>
+      </ul>
+    </div>
+    <script src='core/map.js'></script>
+  </body>
+</html>
