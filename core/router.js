@@ -4,7 +4,6 @@ ncos.Routers.Main = Backbone.Router.extend({
    	this.history = []
 	},
   routes: {
-    '' : 'index',
     'about(/)' : 'about',
     'calendar(/)': 'calendar',
     'news-radio-liberty(/)': 'newsLiberty',
