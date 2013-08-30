@@ -109,7 +109,7 @@ ncos.Routers.Main = Backbone.Router.extend({
   	this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','иная санкция','other')
   },
   checksView: function(id) {
-    this.view(id,'checks','ChecksGrid','Check','CheckPage',ncos.Grids.CheckSubGrids)
+    this.view(id,'checks','checks','Check','CheckPage',ncos.Grids.CheckSubGrids)
   },
   ncoView: function(id) {
   	this.dataInit('checks');
