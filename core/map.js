@@ -5,7 +5,7 @@ var map = L.map('map'),
 
 if (window.location != window.parent.location) iframe = true;
 
-var attribution = iframe ? '<a class="logo" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />По данным <a href="http://closedsociety.org" target="_blank">ИАИ "Закрытое общество"</a>.' : '<a class="logo" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="{{site.baseurl}}/assets/img/liberty.png" /></a><br />Карта проверок - совместный проект<br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">радиостанцией "Свобода"</a>.';
+var attribution = iframe ? '<a class="logo" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />По данным <a href="http://closedsociety.org" target="_blank">ИАИ "Закрытое общество"</a>.' : '<a class="logo" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br />Карта проверок - совместный проект<br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">радиостанцией "Свобода"</a>.';
 
 map.spin(true);
 
@@ -43,7 +43,7 @@ L.spriteIcon = function(marker) {
 		iconSize: [24, 41],
 		shadowsize: [41, 41],
 		iconAnchor: [12, 41],
-		iconUrl: '{{site.baseurl}}/assets/img/blank.png',
+		iconUrl: iframe ? '../assets/img/blank.png' : 'assets/img/blank.png',
 		shadowUrl: L.Icon.Default.imagePath + "/marker-shadow.png"
 	});
 };
