@@ -211,5 +211,7 @@ a.logo-img {
 div.cluster div {
 	font-size: 16px;
 	color: #fff;
-	text-shadow: 1px 1px 1px #cdcdcd;
+	text-shadow: 1px 1px 1px #000;
+	text-align: center;
+	font-weight: bold;
 }
