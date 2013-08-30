@@ -377,6 +377,32 @@
       </div>
       </div>
 		</script>
+		<script id="news-liberty-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>Новости радио "Свобода"</h3><a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="{{site.baseurl}}/assets/img/liberty.png" /></a><br /><h4>Новости радиостанции "Свобода" из раздела "Власть против НКО".</h4></div>
+      <div class="span6 prose">
+      <div id="news-wrapper">
+      </div>
+      <script>
+      setTimeout(function(){
+    		$('#news-wrapper').feeds({
+    			feeds: {
+        		rss: 'http://www.svoboda.org/api/zpmqpre--qpr',
+			    },
+			    xml: true,
+			    preprocess: function ( feed ) {
+        		this.publishedDate = moment(this.publishedDate).format('DD.MM.YYYY')
+    			},
+    			entryTemplate: '<article><header><p class="date"><!=publishedDate!></p><h2><a href="<!=link!>"><!=title!></a></h2></header><div><!=contentSnippet!></div></article>'
+				});
+			},1000);
+			</script>
+      </div>
+		</script>
 		<script id="report-page" type="text/template">       
       <div class="row controls">
       <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>

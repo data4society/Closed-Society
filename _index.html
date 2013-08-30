@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#">
   <head>
@@ -43,6 +44,9 @@
           <li id="calendar" class="menu">
             <label>Календарь судов</label><small class="description dd">Календарь ближайших судов НКО от радиостанции "Свобода"</small>
           </li>
+          <li id="news-radio-liberty" class="menu">
+          	<label>Новости Свободы</label><small class="description dd">Новости радио "Свобода" из раздела Власть против НКО</small>
+        	</li>
           <li id="eng" class="menu comingsoon"><span>coming soon</span>
             <label>English version</label><small class="description dd">Russian non-commercial organisation's inspections database and map </small>
           </li>
@@ -89,12 +93,13 @@
     <script type="text/javascript" src="/Closed-Society/libs/backbone/plugins/pageable/backbone-pageable.min.js"></script>
     <script type="text/javascript" src="/Closed-Society/libs/select2/select2.js"></script>
     <script type="text/javascript" src="/Closed-Society/libs/select2/select2_locale_ru.js"></script>
+    <script type="text/javascript" src="/Closed-Society/libs/jquery/plugins/feeds/jquery.feeds.min.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/libertycalendar.js"></script>
     <script type="text/javascript" src="/Closed-Society/core/data.js"></script>
     <script type="text/javascript" src="/Closed-Society/core/models.js"></script>
     <script type="text/javascript" src="/Closed-Society/core/views.js"></script>
     <script type="text/javascript" src="/Closed-Society/core/router.js"></script>
-    <script type="text/javascript" src="/Closed-Society/core/schema/gridschema.js"></script>
-    <script type="text/javascript" src="/Closed-Society/core/libertycalendar.js"></script>
+    <script type="text/javascript" src="/Closed-Society/core/schema/gridschema.js"></script>    
     		<script id="nco-page" type="text/template">
       <div class="row controls">
       <button class="btn" id="goback"><i class="icon-arrow-left"></i> Назад</button>
@@ -449,7 +454,7 @@
       <button class="close-stack">×</button>
       </div>
       <div class="row">
-      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>Календарь судов</h3><a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br /><h4>Календарь ближайших судебных заседаний над некоммерческими организациями предоставлен радисотанцией "Свобода".</h4></div>
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>Календарь судов</h3><a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="/Closed-Society/assets/img/liberty.png" /></a><br /><h4>Календарь ближайших судебных заседаний над некоммерческими организациями предоставлен радисотанцией "Свобода".</h4></div>
       <div class="span6 prose">
       <div id="calendar-wrapper">
       </div>
@@ -459,7 +464,33 @@
 					eventsjson: 'http://hidden-springs-4417.herokuapp.com/api/events'
 				})
 			},1000);
-      </script>
+			</script>
+      </div>
+		</script>
+		<script id="news-liberty-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>Новости радио "Свобода"</h3><a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="/Closed-Society/assets/img/liberty.png" /></a><br /><h4>Новости радиостанции "Свобода" из раздела "Власть против НКО".</h4></div>
+      <div class="span6 prose">
+      <div id="news-wrapper">
+      </div>
+      <script>
+      setTimeout(function(){
+    		$('#news-wrapper').feeds({
+    			feeds: {
+        		rss: 'http://www.svoboda.org/api/zpmqpre--qpr',
+			    },
+			    xml: true,
+			    preprocess: function ( feed ) {
+        		this.publishedDate = moment(this.publishedDate).format('DD.MM.YYYY')
+    			},
+    			entryTemplate: '<article><header><p class="date"><!=publishedDate!></p><h2><a href="<!=link!>"><!=title!></a></h2></header><div><!=contentSnippet!></div></article>'
+				});
+			},1000);
+			</script>
       </div>
 		</script>
 		<script id="report-page" type="text/template">       

@@ -919,3 +919,16 @@ div.prose p {
 .report iframe {
 	padding-left: 100px;
 }
+
+#news-wrapper article {
+	padding: 10px 40px;
+}
+
+#news-wrapper article h2 {
+	font-size: 18px;
+	line-height: 25px;
+}
+
+#news-wrapper article p.date {
+	margin-bottom: 2px;
+}
