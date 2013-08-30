@@ -60,15 +60,19 @@ ncos.Routers.Main = Backbone.Router.extend({
 	},
 	about: function() {
   	this.dataInit('about','checks');
-  	var model = new Backbone.Model();
-    var v = new ncos.Views.AboutPage({model:model});
-    ncos.Views.currentLayout.view.addToStack(v);
+  	this.fetching.done(function () {
+  		var model = new Backbone.Model();
+    	var v = new ncos.Views.AboutPage({model:model});
+    	ncos.Views.currentLayout.view.addToStack(v);
+    });
 	},
 	calendar: function() {
   	this.dataInit('calendar','checks');
-  	var model = new Backbone.Model();
-    var v = new ncos.Views.CalendarPage({model:model});
-    ncos.Views.currentLayout.view.addToStack(v);
+  	this.fetching.done(function () {
+  		var model = new Backbone.Model();
+    	var v = new ncos.Views.CalendarPage({model:model});
+    	ncos.Views.currentLayout.view.addToStack(v);
+    })
 	},
 	newsLiberty: function() {
   	this.dataInit('news-radio-liberty','checks');
@@ -80,9 +84,11 @@ ncos.Routers.Main = Backbone.Router.extend({
 	},
 	report: function() {
   	this.dataInit('report','checks');
-  	var model = new Backbone.Model();
-    var v = new ncos.Views.ReportPage({model:model});
-    ncos.Views.currentLayout.view.addToStack(v);
+  	this.fetching.done(function () {
+  		var model = new Backbone.Model();
+    	var v = new ncos.Views.ReportPage({model:model});
+    	ncos.Views.currentLayout.view.addToStack(v);
+    })
 	},
   checks: function() {
     this.list('Checks','Checks','checks','Проверки','ChecksGrid')

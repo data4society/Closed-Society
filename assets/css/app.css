@@ -581,6 +581,9 @@ div.menu ul.sidebar-menu {
 div.menu ul.sidebar-menu li.menu {
 	background: rgba(244, 243, 241, 0.1);
 }
+div.menu ul.sidebar-menu li.menu label {
+	cursor: pointer;
+}
 div.menu ul.sidebar-menu li.menu:hover {
 	background: #fff;
 }
