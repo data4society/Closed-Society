@@ -1,9 +1,10 @@
 var map = L.map('map'),
 		markerSize = 20,
-		iconsPath = "/images/map/",
 		iframe = false;
 
 if (window.location != window.parent.location) iframe = true;
+
+var iconsPath = iframe ? '../assets/img/markers/' : 'assets/img/markers/',
 
 var attribution = iframe ? '<a class="logo-img" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />По данным <a href="http://closedsociety.org" target="_blank">ИАИ "Закрытое общество"</a>.' : '<a class="logo-img" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br />Карта проверок - совместный проект<br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">радиостанцией "Свобода"</a>.';
 
