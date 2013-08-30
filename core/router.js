@@ -46,7 +46,10 @@ ncos.Routers.Main = Backbone.Router.extend({
 			var model = ncos.Models[modelName].create({_id:id})
 			ncos.State.notify('show','Загрузка данных...');
 			model.fetch().done(function() {
-				$('#info').append(' Выполнена ;)')
+				$('#info').append(' Выполнена!')
+				setTimeout(function(){
+					ncos.State.notify('hide')
+				}, 1000);
 				var v = new ncos.Views[viewName]({model: model, collection: self.fetching.collection, relations: relations})
 				ncos.Views.currentLayout.view.addToStack(v)
 			})
@@ -137,10 +140,10 @@ ncos.Routers.Main = Backbone.Router.extend({
 		var self = this;
 		ncos.State.notify('show','Загрузка данных...');
 		this.fetching = c.fetch().done(function(){
-			$('#info').append(' Выполнена ;)')
+			$('#info').append(' Выполнена!')
 			setTimeout(function(){
 				ncos.State.notify('hide')
-			}, 2000);
+			}, 1000);
 			self.fetching.collection = c;
 		});
   },

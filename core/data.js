@@ -14,7 +14,7 @@ window.ncos = {
 };
 
 $(document).ready(function(){
-  $.getJSON('http://ngo.ovdinfo.org/api/stats/checks', function(data) {
+  $.getJSON('http://api.closedsociety.org/api/stats/checks', function(data) {
 		ncos.State.Stats = data[0];
 	}).done(function() {
 		ncos.init();
@@ -159,7 +159,7 @@ Backgrid.Extension.ServerSelectFilter = Backgrid.Extension.ServerSideFilter.exte
         callback(data);
     	},
       ajax: {
-      	url: 'http://ngo.ovdinfo.org/api/distinct/' + colName + '/' + this.name,
+      	url: 'http://api.closedsociety.org/api/distinct/' + colName + '/' + this.name,
         dataType: 'json',
         quietMillis: 100,
         data: function (term, page) { // page is the one-based page number tracked by Select2
