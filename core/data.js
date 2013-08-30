@@ -7,8 +7,6 @@ window.ncos = {
 	Grids: {},
 	State: { layoutInitialized: false },
   init: function() {
-  	/*startSpinner();
-    stopSpinner();*/
     ncos.rooter = new ncos.Routers.Main();
     Backbone.history.start({ pushState: true, root: ncos.root });
   },
@@ -94,7 +92,7 @@ Backgrid.ClickableRow = Backgrid.Row.extend({
 });
 
 Backbone.on("rowclicked", function (model) {
-  ncos.rooter.navigate('/data/' + model.page + '/' + model.id, {trigger: true});
+  ncos.rooter.navigate('/#data/' + model.page + '/' + model.id, {trigger: true});
 });
 
 
