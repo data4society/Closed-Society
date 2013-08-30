@@ -44,7 +44,9 @@ ncos.Routers.Main = Backbone.Router.extend({
 		this.dataInit(page,list)
 		this.fetching.done(function () {
 			var model = ncos.Models[modelName].create({_id:id})
+			ncos.State.notify('show','Загрузка данных...');
 			model.fetch().done(function() {
+				$('#info').append(' Выполнена ;)')
 				var v = new ncos.Views[viewName]({model: model, collection: self.fetching.collection, relations: relations})
 				ncos.Views.currentLayout.view.addToStack(v)
 			})
