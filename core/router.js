@@ -100,7 +100,9 @@ ncos.Routers.Main = Backbone.Router.extend({
     })
 	},
   checks: function() {
-  	if (window.location.hash != '') { ncos.rooter.navigate('/data/checks/' + window.location.hash.substr(1), {trigger: true}); }
+  	if (window.location.hash != '') {
+  		ncos.rooter.navigate('/data/checks/' + window.location.hash.substr(1), {trigger: true});
+    }
     this.list('Checks','Checks','checks','Проверки','ChecksGrid')
   },
   warnings: function() {
@@ -119,6 +121,8 @@ ncos.Routers.Main = Backbone.Router.extend({
   	this.list('Checks','FilteredChecks','checks','Проверки','ChecksGrid','иная санкция','other')
   },
   checksView: function(id) {
+  	this.history.pop();
+  	ncos.rooter.navigate('/data/checks/#' + id, {trigger: false});
     this.view(id,'checks','checks','Check','CheckPage',ncos.Grids.CheckSubGrids)
   },
   ncoView: function(id) {
