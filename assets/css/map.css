@@ -202,10 +202,10 @@ a.logo-img {
 }
 .leaflet-sprite-blue { background-position: 0 -132px; width: 41px; height: 41px; } 
 .leaflet-sprite-green{ background-position: 0 -355px; width: 41px; height: 41px; } 
-.leaflet-sprite-orange{ background-position: 0 -1247px; width: 41px; height: 41px; } 
-.leaflet-sprite-purple{ background-position: 0 -801px; width: 41px; height: 41px; } 
+.leaflet-sprite-orange{ background-position: 0 -801px; width: 41px; height: 41px; } 
+.leaflet-sprite-purple{ background-position: 0 -578px; width: 41px; height: 41px; } 
 .leaflet-sprite-red{ background-position: 0 -1024px; width: 41px; height: 41px; } 
-.leaflet-sprite-violet{ background-position: 0 -578px; width: 41px; height: 41px; } 
+.leaflet-sprite-violet{ background-position: 0 -1247px; width: 41px; height: 41px; } 
 .leaflet-sprite-yellow{ background-position: 0 -1470px; width: 41px; height: 41px; }
 
 div.cluster div {
