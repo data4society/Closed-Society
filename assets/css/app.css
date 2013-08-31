@@ -941,6 +941,7 @@ div.prose p {
 	z-index: 20;
 	padding: 12px;
 	height: 20px;
+	width: 100%;
 	background: rgba(0, 0, 0, 0.2);
 	top: 0;
 	bottom: 0;
