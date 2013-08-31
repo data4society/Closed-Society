@@ -935,3 +935,22 @@ div.prose p {
 #news-wrapper article p.date {
 	margin-bottom: 2px;
 }
+
+#info {
+	position: absolute;
+	z-index: 20;
+	padding: 12px;
+	height: 25px;
+	background: rgba(0, 0, 0, 0.2);
+	top: 0;
+	bottom: 0;
+	left: 100px;
+	right: 0;
+	font-size: 14px;
+	color: #fff;
+	line-height: 22px;
+	text-align: center;
+	-webkit-font-smoothing: antialiased;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.66);
+	font-weight: 600;
+}
