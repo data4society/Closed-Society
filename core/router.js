@@ -100,9 +100,9 @@ ncos.Routers.Main = Backbone.Router.extend({
     })
 	},
   checks: function() {
-  	console.log(window.location.hash.substr(1))
   	if (window.location.hash != '') {
   		ncos.rooter.navigate('/#data/checks/' + window.location.hash.substr(1), {trigger: true});
+  		return;
     }
     this.list('Checks','Checks','checks','Проверки','ChecksGrid')
   },
