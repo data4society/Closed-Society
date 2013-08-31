@@ -226,7 +226,7 @@ info.update = function (props) {
 
 info.addTo(map);
 
-var geoJsonLayer = L.geoJson.ajax("http://closedsociety.org/api/geo/ncos",{dataType:"json"});
+var geoJsonLayer = L.geoJson.ajax("http://api.closedsociety.org/api/geo/ncos",{dataType:"json"});
 geoJsonLayer.on('data:loaded',handleGeoJSON);
 		
 markers.on('click',function(e) {
