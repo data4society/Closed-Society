@@ -167,7 +167,7 @@ ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
   	ncos.rooter.trigger('pseudo');
   	ncos.State.notify('show','Загрузка данных...');
   	this.collection.fetch().done(function() {
-  		$('#info').append(' Выполнена!')
+  		$('#info-alert').append(' Выполнена!')
   		setTimeout(function(){
 				ncos.State.notify('hide')
 			}, 1000);

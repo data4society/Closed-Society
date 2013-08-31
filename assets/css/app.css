@@ -936,15 +936,14 @@ div.prose p {
 	margin-bottom: 2px;
 }
 
-#info {
+#info-alert {
 	position: absolute;
 	z-index: 20;
 	padding: 12px;
-	height: 25px;
+	height: 20px;
 	background: rgba(0, 0, 0, 0.2);
 	top: 0;
 	bottom: 0;
-	left: 100px;
 	right: 0;
 	font-size: 14px;
 	color: #fff;

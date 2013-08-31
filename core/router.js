@@ -47,7 +47,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 			var model = ncos.Models[modelName].create({_id:id})
 			ncos.State.notify('show','Загрузка данных...');
 			model.fetch().done(function() {
-				$('#info').append(' Выполнена!')
+				$('#info-alert').append(' Выполнена!')
 				setTimeout(function(){
 					ncos.State.notify('hide')
 				}, 1000);
@@ -144,7 +144,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 		var self = this;
 		ncos.State.notify('show','Загрузка данных...');
 		this.fetching = c.fetch().done(function(){
-			$('#info').append(' Выполнена!')
+			$('#info-alert').append(' Выполнена!')
 			setTimeout(function(){
 				ncos.State.notify('hide')
 			}, 1000);
