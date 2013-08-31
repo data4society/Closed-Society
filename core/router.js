@@ -101,8 +101,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 	},
   checks: function() {
   	if (window.location.hash != '') {
-  		ncos.rooter.navigate('/#data/checks/' + window.location.hash.substr(1), {trigger: true});
-  		return;
+  		ncos.rooter.navigate('/data/checks/' + window.location.hash.substr(1), {trigger: true});
     }
     this.list('Checks','Checks','checks','Проверки','ChecksGrid')
   },
@@ -123,6 +122,7 @@ ncos.Routers.Main = Backbone.Router.extend({
   },
   checksView: function(id) {
     this.view(id,'checks','checks','Check','CheckPage',ncos.Grids.CheckSubGrids)
+    ncos.rooter.navigate('/data/checks/#' + id, {trigger: false});
   },
   ncoView: function(id) {
   	this.dataInit('checks');
