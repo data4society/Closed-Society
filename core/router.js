@@ -32,7 +32,12 @@ ncos.Routers.Main = Backbone.Router.extend({
 		this.dataInit(page)
 		this.setTitle(title)
 		this.routerFetch(c)
+		ncos.State.notify('show','Загрузка данных...');
 		this.fetching.done(function () {
+			$('#info-alert').append(' Выполнена!')
+			setTimeout(function(){
+				ncos.State.notify('hide')
+			}, 1000);
 			var v = new ncos.Views[viewName]({ collection: c, columns: ncos.Grids[columns] })
 			ncos.Views.currentLayout = new ncos.Views.MainLayout({rootView: v}).render()
 			ncos.State.layoutInitialized = true
@@ -148,12 +153,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 	
 	routerFetch: function(c) {
 		var self = this;
-		ncos.State.notify('show','Загрузка данных...');
 		this.fetching = c.fetch().done(function(){
-			$('#info-alert').append(' Выполнена!')
-			setTimeout(function(){
-				ncos.State.notify('hide')
-			}, 1000);
 			self.fetching.collection = c;
 		});
   },
