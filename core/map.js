@@ -88,7 +88,7 @@ var markers = L.markerClusterGroup({
 			iconAnchor: [markerSize, markerSize],
 			className: "cluster",
 			//html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
-			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+'clusters.png\');background-position:'+(-40*(byteInt%8))+'px '+(-40*Math.floor(byteInt/8))+'px;">' + cluster.getChildCount() + '</div>'
+			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+'clusters.png\');background-position:'+(-40*byteInt)+'px 0px;">' + cluster.getChildCount() + '</div>'
 		});
 	}
 });
