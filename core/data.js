@@ -296,16 +296,16 @@ function toCsv(objArray, sDelimiter, cDelimiter) {
 
 ncos.State.notify = function(state, message, type) {
 	if (state=='show') {
-  	$('body').prepend('<div id="info" class="animated fadeInLeft ' + type + '"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-ok"></i> ' + message + '</div>');
+  	$('body').prepend('<div id="info-alert" class="animated fadeInLeft ' + type + '"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-ok"></i> ' + message + '</div>');
   	$('img.logo').repeat(500).toggleClass('loading');
   }
 	else if (state=='show-hide') {
-		$('body').prepend('<div id="info" class="animated fadeInLeft ' + type + '"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-ok"></i> ' + message + '</div>');
+		$('body').prepend('<div id="info-alert" class="animated fadeInLeft ' + type + '"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-ok"></i> ' + message + '</div>');
 		$('img.logo').repeat(500).toggleClass('loading').until(6);
-		$('div#info').wait(3000).addClass('fadeOutLeft').wait(1000).remove(); 
+		$('div#info-alert').wait(3000).addClass('fadeOutLeft').wait(1000).remove(); 
 	}
   else if (state=='hide') {
-    $('div#info').addClass('fadeOutLeft').wait(1000).remove();
+    $('div#info-alert').addClass('fadeOutLeft').wait(1000).remove();
     $('img.logo').unrepeat();
   }
 };
