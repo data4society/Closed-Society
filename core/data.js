@@ -10,7 +10,7 @@ window.ncos = {
     ncos.rooter = new ncos.Routers.Main();
     Backbone.history.start({ pushState: true, root: ncos.root });
   },
-  root: '/Closed-Society/'
+  root: '/'
 };
 
 $(document).ready(function(){
