@@ -4,7 +4,8 @@ var map = L.map('map'),
 
 if (window.location != window.parent.location) iframe = true;
 
-var iconsPath = iframe ? '../assets/img/markers/' : 'assets/img/markers/',
+//var iconsPath = iframe ? '../assets/img/markers/' : 'assets/img/markers/',
+var iconsPath = iframe ? '../assets/img/' : 'assets/img/',
 		attribution = iframe ? '<a class="logo-img" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />По данным <a href="http://closedsociety.org" target="_blank">ИАИ "Закрытое общество"</a>.' : '<a class="logo-img" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br />Карта проверок - совместный проект<br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">радиостанцией "Свобода"</a>.';
 
 map.spin(true);
@@ -86,7 +87,8 @@ var markers = L.markerClusterGroup({
 			iconSize: [2*markerSize, 2*markerSize],
 			iconAnchor: [markerSize, markerSize],
 			className: "cluster",
-			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
+			//html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+byteIntToString(byteInt)+'.png\');">' + cluster.getChildCount() + '</div>'
+			html: '<div style="width:'+2*markerSize+'px;height:'+2*markerSize+'px;line-height:'+2*markerSize+'px;background-image:url(\''+iconsPath+'clusters.png\');background-position:'+(-40*(byteInt%8))+'px '+(-40*Math.floor(byteInt/8))+'px;">' + cluster.getChildCount() + '</div>'
 		});
 	}
 });
