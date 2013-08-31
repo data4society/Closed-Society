@@ -18,7 +18,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 		'data/cases(/)' : 'cases',
 		'data/other(/)' : 'other',
 		'data/ncos/:id' : 'ncoView',
-		'data/checks#:id' : 'checksView',
+		'data/checks/#:id' : 'checksView',
 		'data/cases/:id' : 'casesView',
 		'data/sanctions/:id' : 'sanctionsView'
   },
