@@ -1,7 +1,8 @@
 ncos.Routers.Main = Backbone.Router.extend({
   initialize: function() {
 		this.on("all", this.storeRoute)
-   	this.history = []
+   	this.history = [];
+   	this.history.push('/data/checks');
 	},
   routes: {
   	'map' : 'map',
