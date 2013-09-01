@@ -28,10 +28,10 @@ L.spriteIcon = function(marker) {
 			color = 'green';
 			break;
 		case 8:
-			color = 'orange';
+			color = 'yellow';
 			break;
 		case 16:
-			color = 'yellow';
+			color = 'orange';
 			break;
 		case 32:
 			color = 'red';
@@ -101,8 +101,8 @@ legend.onAdd = function (map) {
 	this._div.innerHTML = '<ul id="legend"> \
 		<li><span class="red"></span> - деятельность НКО приостановлена</li> \
 		<li><span class="violet"></span> - возбуждено административное дело</li> \
-		<li><span class="orange"></span> - НКО получившие предостережения</li> \
-		<li><span class="yellow"></span> - НКО получившие представления</li> \
+		<li><span class="orange"></span> - НКО получившие представления</li> \
+		<li><span class="yellow"></span> - НКО получившие предостережения</li> \
 		<li><span class="green"></span> - иные методы давления</li> \
 		<li><span class="blue"></span> - нет информации</li> \
 		</ul>';
