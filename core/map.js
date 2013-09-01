@@ -28,10 +28,10 @@ L.spriteIcon = function(marker) {
 			color = 'green';
 			break;
 		case 8:
-			color = 'yellow';
+			color = 'orange';
 			break;
 		case 16:
-			color = 'orange';
+			color = 'yellow';
 			break;
 		case 32:
 			color = 'red';
