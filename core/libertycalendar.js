@@ -147,7 +147,7 @@
 				abbrev = 'th'
 			}
 		}
-		return num + abbrev
+		return num + '-е';
 	}
 	function getEvents(limit, year, month, day, direction) {
 		var limit = limit || 0;
