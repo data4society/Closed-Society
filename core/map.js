@@ -150,7 +150,7 @@ var ShareControl = L.Control.extend({
 					"<h3>Поделиться этой картой</h3>" + "<div class='share-buttons'><a class='share-facebook icon icon-facebook' target='_blank' href='" + 
 					facebook + "'>Facebook</a>" + "<a class='share-twitter icon icon-twitter' target='_blank' href='" + 
 					twitter + "'>Twitter</a></div>" + "<h3>Получить embed код</h3>" + "<small>Скопирйте и вставьте этот HTML код на вашу страницу.</small>" +
-          "<textarea rows=4>&lt;iframe width='700' height='500' frameBorder='0' src='" + embed + "'&gt;&lt;/iframe&gt;</textarea>";
+          "<textarea rows=4>&lt;iframe width='700' height='500' allowfullscreen='true' frameBorder='0' src='" + embed + "'&gt;&lt;/iframe&gt;</textarea>";
 		this._popup = L.marker(this._map.getCenter(), {
 			zIndexOffset: 10000,
 			icon: L.divIcon({
