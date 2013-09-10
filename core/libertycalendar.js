@@ -240,8 +240,8 @@
 							eventDayToShow = (eventDay < 10 ? '0' : '') + eventDay,
 							eventMonthToShow = (eventMonth < 9 ? '0' : '') + (eventMonth + 1),
 							eventHour = eventDate.getHours() == '00' ? '' : eventDate.getHours(),
-							eventMinute = eventDate.getMinutes() == '00' ? '' : eventDate.getMinutes(),
-							eventTime = (eventHour != '' && eventMinute != '') ? '<small>'+eventHour+":"+eventMinute+'</small>' : '';
+							eventMinute = eventDate.getHours() == '00' ? '' : (eventDate.getMinutes()<10?'0':'') + eventDate.getMinutes(),
+							eventTime = (eventHour != '') ? '<small>'+eventHour+':'+eventMinute+'</small>' : '';
 					}
 					if (parseInt(eventMinute) <= 9) {
 						eventMinute = "0" + parseInt(eventMinute);
