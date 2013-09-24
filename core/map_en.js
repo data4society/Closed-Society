@@ -99,12 +99,12 @@ var legendposition = iframe ? 'bottomleft' : 'bottomright',
 legend.onAdd = function (map) {
 	this._div = L.DomUtil.create('div', 'legend');
 	this._div.innerHTML = '<ul id="legend"> \
-		<li><span class="red"></span> - деятельность НКО приостановлена</li> \
-		<li><span class="violet"></span> - возбуждено административное дело</li> \
-		<li><span class="orange"></span> - НКО получившие представления</li> \
-		<li><span class="yellow"></span> - НКО получившие предостережения</li> \
-		<li><span class="green"></span> - иные методы давления</li> \
-		<li><span class="blue"></span> - нет информации</li> \
+		<li><span class="red"></span> - Suspended</li> \
+		<li><span class="violet"></span> - Administrative cases</li> \
+		<li><span class="orange"></span> - Notice of violations</li> \
+		<li><span class="yellow"></span> - Warnings</li> \
+		<li><span class="green"></span> - Other</li> \
+		<li><span class="blue"></span> - No data</li> \
 		</ul>';
 	return this._div;
 };
@@ -253,7 +253,7 @@ function filter(e) {
 		if(e.target.dataset.filter == 'all') {
 			return true;
 		} else {
-			var authorities = f.properties.authorities;
+			var authorities = f.properties.authoritiesEn;
 		  if (authorities != null) {
 		  	return authorities.indexOf(e.target.dataset.filter) > -1;
 			} else {
@@ -292,7 +292,7 @@ function getValue(val,name,type,label) {
 			return '';
 		}
 	} else if (type == 'link' && val != null) {
-		return iframe ? '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/#' + val + '" target="_blank">подробнее -></a></span>' : '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/#' + val + '">подробнее -></a></span>';
+		return iframe ? '<span class="' + name + '"><a href="http://closedsociety.org/en/data/checks/#' + val + '" target="_blank">подробнее -></a></span>' : '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/#' + val + '">подробнее -></a></span>';
 	} else {
 		return '';
 	}
