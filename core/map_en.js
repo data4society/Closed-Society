@@ -5,7 +5,7 @@ var map = L.map('map'),
 if (window.location != window.parent.location) iframe = true;
 
 //var iconsPath = iframe ? '../assets/img/markers/' : 'assets/img/markers/',
-var iconsPath = iframe ? '../assets/img/' : 'assets/img/',
+var iconsPath = '../assets/img/',
 		attribution = iframe ? '<a class="logo-img" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />По данным <a href="http://closedsociety.org" target="_blank">ИАИ "Закрытое общество"</a>.' : '<a class="logo-img" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br />Карта проверок - совместный проект<br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">радиостанцией "Свобода"</a>.';
 
 map.spin(true);
@@ -44,7 +44,7 @@ L.spriteIcon = function(marker) {
 		iconSize: [24, 41],
 		shadowsize: [41, 41],
 		iconAnchor: [12, 41],
-		iconUrl: iframe ? '../assets/img/blank.png' : 'assets/img/blank.png',
+		iconUrl: '../assets/img/blank.png',
 		shadowUrl: L.Icon.Default.imagePath + "/marker-shadow.png"
 	});
 };
@@ -201,20 +201,20 @@ info.onAdd = function (map) {
 info.create = function () {
 	this._div.innerHTML = '<div id="filter-wrapper"> \
 		<ul id="filter"> \
-		<li data-filter="all" class="all active">Все проверки</li> \
-		<li data-filter="Прокуратура">Прокуратура</li> \
-		<li data-filter="Минюст">Минюст</li> \
-		<li data-filter="МВД">МВД</li> \
-		<li data-filter="МЧС">МЧС</li> \
-		<li data-filter="ФМС">ФМС</li> \
-		<li data-filter="ФНС">ФНС</li> \
-		<li data-filter="ФСБ">ФСБ</li> \
-		<li data-filter="ФТС">ФТС</li> \
-		<li data-filter="ФСКН">ФСКН</li> \
-		<li data-filter="Роскомнадзор">Роскомнадзор</li> \
-		<li data-filter="Роспотребнадзор">Роспотребнадзор</li> \
-		<li data-filter="ОБЭП">ОБЭП</li> \
-		<li data-filter="ЦПЭ">ЦПЭ</li> \
+		<li data-filter="all" class="all active">All inspections</li> \
+		<li data-filter="Прокуратура">Prosecutor office</li> \
+		<li data-filter="Минюст">Ministry of Justice</li> \
+		<li data-filter="МВД">Interior Ministry</li> \
+		<li data-filter="МЧС">Emergency Ministry</li> \
+		<li data-filter="ФМС">Migration Sercive</li> \
+		<li data-filter="ФНС">Tax Service</li> \
+		<li data-filter="ФСБ">Security Service</li> \
+		<li data-filter="ФТС">Customs Service</li> \
+		<li data-filter="ФСКН">Drug Control Service</li> \
+		<li data-filter="Роскомнадзор">ROSKOMNADZOR</li> \
+		<li data-filter="Роспотребнадзор">ROSPOTREBNADZOR</li> \
+		<li data-filter="ОБЭП">Economical Crimes Department</li> \
+		<li data-filter="ЦПЭ">Anti-Extremism Department</li> \
 		</ul> \
 		</div> \
 		<div id="info"> \
@@ -229,7 +229,7 @@ info.update = function (props) {
 
 info.addTo(map);
 
-var geoJsonLayer = L.geoJson.ajax("http://api.closedsociety.org/api/geo/ncos",{dataType:"json"});
+var geoJsonLayer = L.geoJson.ajax("http://api.closedsociety.org/api/geo/ncos/en",{dataType:"json"});
 geoJsonLayer.on('data:loaded',handleGeoJSON);
 		
 markers.on('click',function(e) {
