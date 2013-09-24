@@ -202,19 +202,19 @@ info.create = function () {
 	this._div.innerHTML = '<div id="filter-wrapper"> \
 		<ul id="filter"> \
 		<li data-filter="all" class="all active">All inspections</li> \
-		<li data-filter="Прокуратура">Prosecutor office</li> \
-		<li data-filter="Минюст">Ministry of Justice</li> \
-		<li data-filter="МВД">Interior Ministry</li> \
-		<li data-filter="МЧС">Emergency Ministry</li> \
-		<li data-filter="ФМС">Migration Sercive</li> \
-		<li data-filter="ФНС">Tax Service</li> \
-		<li data-filter="ФСБ">Security Service</li> \
-		<li data-filter="ФТС">Customs Service</li> \
-		<li data-filter="ФСКН">Drug Control Service</li> \
-		<li data-filter="Роскомнадзор">ROSKOMNADZOR</li> \
-		<li data-filter="Роспотребнадзор">ROSPOTREBNADZOR</li> \
-		<li data-filter="ОБЭП">Economical Crimes Department</li> \
-		<li data-filter="ЦПЭ">Anti-Extremism Department</li> \
+		<li data-filter="Prosecutor office">Prosecutor office</li> \
+		<li data-filter="Ministry of Justice">Ministry of Justice</li> \
+		<li data-filter="Interior Ministry">Interior Ministry</li> \
+		<li data-filter="Emergency Ministry">Emergency Ministry</li> \
+		<li data-filter="Migration Sercive">Migration Sercive</li> \
+		<li data-filter="Tax Service">Tax Service</li> \
+		<li data-filter="Security Service">Security Service</li> \
+		<li data-filter="Customs Service">Customs Service</li> \
+		<li data-filter="Drug Control Service">Drug Control Service</li> \
+		<li data-filter="ROSKOMNADZOR">ROSKOMNADZOR</li> \
+		<li data-filter="ROSPOTREBNADZOR">ROSPOTREBNADZOR</li> \
+		<li data-filter="Economical Crimes Department">Economical Crimes Department</li> \
+		<li data-filter="Anti-Extremism Department">Anti-Extremism Department</li> \
 		</ul> \
 		</div> \
 		<div id="info"> \
