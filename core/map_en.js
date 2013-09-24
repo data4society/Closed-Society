@@ -199,7 +199,7 @@ info.onAdd = function (map) {
 };
 
 info.create = function () {
-	this._div.innerHTML = '<div id="filter-wrapper"> \
+	this._div.innerHTML = '<div id="filter-wrapper-en"> \
 		<ul id="filter"> \
 		<li data-filter="all" class="all active">All inspections</li> \
 		<li data-filter="Prosecutor office">Prosecutor office</li> \

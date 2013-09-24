@@ -33,6 +33,9 @@
 #filter-wrapper {
 	height: 70px
 }
+#filter-wrapper {
+	height: 140px
+}
 #info {
 	padding: 5px;
 }
