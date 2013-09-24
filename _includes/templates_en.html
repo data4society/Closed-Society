@@ -127,7 +127,7 @@
       <% _.each(model.chronology,function(item){ %>
       <tr>
       <td><% if (item.stateDate) { %><%= moment(item.stateDate,"X").format("DD.MM.YYYY")%><% } %></td>
-      <td><%= item.state %></td>
+      <td><%= item.stateEn %></td>
       <td><% if (item.stateSource) { %><a href="<%= item.stateSource %>" target=_blank>source</a><% } %></td>
       </tr>
       <% }) %>
