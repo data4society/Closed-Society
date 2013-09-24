@@ -210,16 +210,16 @@ ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
   			if (!_.isNull(n.currentStateDate)) {
   				n.currentStateDate = moment(n.currentStateDate,"X").format("DD.MM.YYYY");
   			}
-  			changePropName(n,'ncoName','название НКО');
-  			changePropName(n,'sector','направления деятельности');
-  			changePropName(n,'region','регион');
-  			changePropName(n,'date','дата проверки');
-  			changePropName(n,'authoritiesName','проверяющие органы');
-  			changePropName(n,'currentStateDate','дата текущего статуса');
-  			changePropName(n,'currentState','текущий статус');
-  			changePropName(n,'currentStateSource','источник информации о текущем статусе');
-  			changePropName(n,'source','источник информации о проверке');
-  			changePropName(n,'description','примечание');
+  			changePropName(n,'ncoName','NGO');
+  			changePropName(n,'sectorEn','sector');
+  			changePropName(n,'regionEn','region');
+  			changePropName(n,'date','inspection date');
+  			changePropName(n,'authoritiesNameEn','authorities');
+  			changePropName(n,'currentStateDate','current state date');
+  			changePropName(n,'currentStateEn','current state');
+  			changePropName(n,'currentStateSource','current state source');
+  			changePropName(n,'source','inspection info source');
+  			changePropName(n,'description','inspection description');
   			col.push(n);
   		});
 			var csv = toCsv(col,'"',';');
