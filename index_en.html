@@ -1,0 +1,109 @@
+---
+permalink: /en/index.html
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Closed Society</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+    <link href='libs/leaflet/plugins/markercluster/MarkerCluster.css' rel='stylesheet' />
+    <link href='libs/leaflet/plugins/fullscreen/Control.FullScreen.css' rel='stylesheet' />
+    <link href='assets/css/map.css' rel='stylesheet' />
+    <link href='assets/css/app.css' rel='stylesheet'>
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="libs/animate/animate.min.css">
+    <link rel="stylesheet" href="libs/backgrid/backgrid.min.css">
+    <link rel="stylesheet" href="libs/backgrid/extensions/paginator/backgrid-paginator.min.css">
+    <link rel="stylesheet" href="libs/backgrid/extensions/filter/backgrid-filter.min.css">
+    <link rel="stylesheet" href="libs/bootstrap/plugins/bootstrap-select/bootstrap-select.min.css">
+    <link rel="stylesheet" href="libs/select2/select2.css">
+    <link rel="stylesheet" href="assets/css/libertycalendar.css">
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src='libs/leaflet/plugins/markercluster/leaflet.markercluster.js'></script>
+    <script src='libs/leaflet/plugins/fullscreen/Control.FullScreen.js'></script>
+    <script src='libs/leaflet/plugins/ajax/leaflet.ajax.min.js'></script>
+    <script src='libs/misc/spin.min.js'></script>
+    <script src='libs/leaflet/plugins/spin/leaflet.spin.js'></script>
+  </head>
+
+  <body>
+  	
+    <div id='map'><div id='loader'></div></div>
+    <div class="menu">
+    	<div class="logo">ClosedSociety.org</div>
+    	<div class="slogan">Мониторинг давления на НКО</div>
+      <ul style="display:block;" class="sidebar-menu">
+        <li id="map-item" class="menu">
+          <label>Карта проверок</label><small class="description dd">Проверки некоммерческих организаций органами власти на карте</small>
+        </li>
+        <a href="data">
+        	<li id="data" class="menu">
+          	<label>База данных</label><small class="description dd">Список некоммерческих организаций проверенных органами власти</small>
+        	</li>
+        </a>
+        <a href="report">
+        	<li id="report" class="menu">
+          	<label>Сообщить о проверке</label><small class="description dd">Сообщите о проверке некоммерческой организации</small>
+        	</li>
+        </a>
+        <a href="calendar">
+        	<li id="calendar" class="menu">
+          	<label>Календарь судов</label><small class="description dd">Ближайшие суды по проверкам НКО в партнерском проекте радио "Свобода"</small>
+        	</li>
+        </a>
+        <a href="news-radio-liberty">
+        	<li id="news-radio-liberty" class="menu">
+          	<label>Новости Свободы</label><small class="description dd">Власть против НКО: последние новости радиостанции</small>
+        	</li>
+        </a>
+        <a href="about">
+        	<li id="about" class="menu">
+          	<label>О проекте</label><small class="description dd">Об информационно-аналитической инициативе “Закрытое общество”</small>
+        	</li>
+        </a>
+      </ul>
+    </div>
+    <script src='core/map.js'></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="libs/misc/spin.min.js"></script>
+    <script type="text/javascript" src="libs/jquery/plugins/timing/jquery-timing.min.js"></script>
+    <script type="text/javascript" src="libs/moment/moment.min.js"></script>
+    <script type="text/javascript" src="libs/misc/Blob.js"></script>
+    <script type="text/javascript" src="libs/misc/FileSaver.min.js"></script>
+    <script type="text/javascript" src="libs/underscore/underscore.min.js"></script>
+    <script type="text/javascript" src="libs/backbone/backbone.min.js"></script>
+    <script type="text/javascript" src="libs/backbone/plugins/layoutmanager/backbone.layoutmanager.min.js"></script>
+    <script type="text/javascript" src="libs/backbone/plugins/supermodel/supermodel.min.js"></script>
+    <script type="text/javascript" src="libs/backgrid/backgrid.min.js"></script>
+    <script type="text/javascript" src="libs/backgrid/extensions/paginator/backgrid-paginator.min.js"></script>
+    <script type="text/javascript" src="libs/backgrid/extensions/moment-cell/backgrid-moment-cell.min.js"></script>
+    <script type="text/javascript" src="libs/backgrid/extensions/filter/backgrid-filter.js"></script>
+    <script type="text/javascript" src="libs/backbone/plugins/pageable/backbone-pageable.min.js"></script>
+    <script type="text/javascript" src="libs/select2/select2.js"></script>
+    <script type="text/javascript" src="libs/select2/select2_locale_ru.js"></script>
+    <script type="text/javascript" src="libs/jquery/plugins/feeds/jquery.feeds.min.js"></script>
+    <script type="text/javascript" src="core/data.js"></script>
+    <script type="text/javascript" src="core/models.js"></script>
+    <script type="text/javascript" src="core/views.js"></script>
+    <script type="text/javascript" src="core/router.js"></script>
+    <script type="text/javascript" src="core/schema/gridschema.js"></script>    
+    {% include templates.html %}
+    <script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-41907823-1', 'closedsociety.org');
+			ga('send', 'pageview');
+		</script>
+  </body>
+</html>
