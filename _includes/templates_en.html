@@ -1,0 +1,402 @@
+		<script id="nco-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> Back</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="hero-unit span2">
+      <h2><%- nco.name %><h2>
+      <h4><%- nco.legalState %></h4>
+      <h4><%- nco.sector %></h4>
+      <p><%- nco.administrative_area_level_1 %>, <%- nco.locality %></p>
+      <p><%- nco.formatted_address %></p>
+      <p><%- nco.phone %></p>
+      <p><%- nco.email %></p>
+      <p><%- nco.website %></p>
+      </div>
+      <div class="span7 right">
+      <% if(checks.length > 0) { %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-inbox"></i>
+      </span>
+      <h5>Проверки</h5>
+      <span title="" class="label      tip-left"><%- checks.length %></span>
+      </div>
+      <div class="widget-content nco-checks">
+      </div>
+      </div>
+      <% } %>
+      <% if(cases.length > 0) { %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-briefcase"></i>
+      </span>
+      <h5>Судебные дела</h5>
+      <span title="" class="label      tip-left"><%- cases.length %></span>
+      </div>
+      <div class="widget-content nco-cases">
+      </div>
+      </div>
+      <% } %>
+      <% if(sanctions.length > 0) { %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-fire"></i>
+      </span>
+      <h5>Санкции</h5>
+      <span title="" class="label      tip-left"><%- sanctions.length %></span>
+      </div>
+      <div class="widget-content nco-sanctions">
+      </div>
+      </div>
+      <% } %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-book"></i>
+      </span>
+      <h5>Пресса</h5>
+      <span title="" class="label      tip-left">1</span>
+      </div>
+      <div class="widget-content nco-media">
+      </div>
+      </div>
+		</script>
+		<script id="check-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> Back</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="hero-unit span2">
+      <p class="name"><%- relations.nco.get('fullName') %></p>
+      <% if(model.date){ %><p class="checkdate">Inspected on <%- moment(model.date,"X").format("DD.MM.YYYY") %></p><% } %>
+      <% _.each(model.authoritiesNameEn,function(auth){ %>
+      <p class="auth"><i class="icon-eye-open icon-white"></i> <%- auth %></p>
+      <% }) %>
+      <% _.each(relations.nco.get('sectorEn'),function(sector){ %>
+      <% if (sector != ''){ %><p class="sector"><i class="icon-tag icon-white"></i> <%- sector %></p><% } %>
+      <% }) %>
+      <% if (model.region != '' || relations.nco.get('phone') != '' || relations.nco.get('email') != '' || relations.nco.get('website') != ''){ %>
+      <div class="dotted">
+      <% if (model.region != ''){ %><p class="address"><i class='icon-globe icon-white'></i> <span><%- model.region %>, <%- relations.nco.get('locality') %>, <%- relations.nco.get('formatted_address') %></p></span><% } %>
+      <% _.each(relations.nco.get('phone'),function(phone){ %>
+      <% if (phone != ''){ %><p class="phone"><i class="icon-volume-up icon-white"></i> + <%- phone %></p><% } %>
+      <% }) %>
+      <% _.each(relations.nco.get('email'),function(email){ %>
+      <% if (email != ''){ %><p class="email"><i class="icon-envelope icon-white"></i> <a href='mailto:<%- email %>'><%- email %></a></p><% } %>
+      <% }) %>
+      <% if (relations.nco.get('website') != ''){ %><p class="web"><i class="icon-bookmark icon-white"></i> <a href='<%- relations.nco.get('website') %>' target=_blank><%- relations.nco.get('website') %></a></p><% } %>
+      </div>
+      <% } %>
+      <% if(model.source){ %>
+      <p class="source"><i class="icon-plus-sign icon-white"></i> <a href="<%- model.source %>" target=blank>source</a><p>
+      <% } %>
+      <% if(model.description){ %>
+      <p class="check-desc"><i class="icon-info-sign icon-white"></i><span><%- model.description %></span><p>
+      <% } %>
+      <% if(model.attitude && model.attitude != ''){ %>
+      <p class='attitude'>NGO's response: <%- model.attitude      %><p>
+      <% } %>
+      <% if(model.reason && model.reason != ''){ %>
+      <p class='reason'>Inspection's reason: <%- model.reason      %><p>
+      <% } %>
+      </div>
+      <div class="span7 right">
+      <% if(model.chronology.length > 0 && (model.chronology[0].state || model.chronology[0].stateDate)){ %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-briefcase"></i>
+      </span>
+      <h5>Хронология</h5>
+      <span title="" class="label      tip-left"><%- model.chronology.length %></span>
+      </div>
+      <div class="widget-content chronology">
+      <table class="backgrid">
+      <thead>
+      <tr>
+      <th>Date</th>
+      <th>State</th>
+      <th>Source</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% _.each(model.chronology,function(item){ %>
+      <tr>
+      <td><% if (item.stateDate) { %><%= moment(item.stateDate,"X").format("DD.MM.YYYY")%><% } %></td>
+      <td><%= item.state %></td>
+      <td><% if (item.stateSource) { %><a href="<%= item.stateSource %>" target=_blank>source</a><% } %></td>
+      </tr>
+      <% }) %>
+      </tbody>
+      </table>
+      </div>
+      </div>
+      <% } %>
+      <% if(!_.isUndefined(model.events)){ %>
+      <% if(model.events.length > 0){ %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-briefcase"></i>
+      </span>
+      <h5>События</h5>
+      <span title="" class="label      tip-left"><%- model.events.length %></span>
+      </div>
+      <div class="widget-content chronology">
+      <% _.each(model.events,function(item){ %>
+      <div>
+      <p><% if (item.eventDate) { %><%= moment(item.eventDate,"X").format("DD.MM.YYYY")%><% } %></p>
+      <p><%= item.event %></p>
+      <p><%= item.eventSource %></p>
+      </div>
+      <% }) %>
+      </div>
+      </div>
+      <% } %>
+      <% } %>
+      <% if(relations.cases.length > 0) { %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-briefcase"></i>
+      </span>
+      <h5>Судебные дела</h5>
+      <span title="" class="label      tip-left"><%- relations.cases.length %></span>
+      </div>
+      <div class="widget-content check-cases">
+      </div>
+      </div>
+      <% } %>
+      <% if(relations.sanctions.length > 0) { %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-fire"></i>
+      </span>
+      <h5>Санкции</h5>
+      <span title="" class="label      tip-left"><%- relations.sanctions.length %></span>
+      </div>
+      <div class="widget-content check-sanctions">
+      </div>
+      </div>
+      <% } %>
+      <% if (relations.nco.get('description')){ %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-book"></i>
+      </span>
+      <h5>Деятельность НКО</h5>
+      </div>
+      <div class="widget-content nco-desc">
+      <%- relations.nco.get('description') %>
+      </div>
+      </div>
+      <% } %>
+      </div>
+		</script>
+		<script id="case-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> Back</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="hero-unit span2">
+      <p><b><%- caseitem.authorityName %> vs <%- caseitem.ncoName %></b><p>
+      <p><%- nco.get('administrative_area_level_1') %>, <%- nco.get('locality') %>, <%- nco.get('formatted_address') %></p>
+      <p><%- nco.get('phone') %></p>
+      <p><%- nco.get('email') %></p>
+      <p><%- nco.get('website') %></p>
+      </div>
+      <div class="span7 right">
+      <% if(caseitem.chronology.length > 0){ %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-briefcase"></i>
+      </span>
+      <h5>Хронология</h5>
+      <span title="" class="label      tip-left"><%- caseitem.chronology.length %></span>
+      </div>
+      <div class="widget-content chronology">
+      <table class="backgrid">
+      <thead>
+      <tr>
+      <th>Дата</th>
+      <th>Статус</th>
+      <th>Источник</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% _.each(caseitem.chronology,function(item){ %>
+      <tr>
+      <td><%= moment(item.stateDate,"X").format("DD.MM.YYYY")%></td>
+      <td><%= item.state %></td>
+      <td><%= item.stateSource %></td>
+      </tr>
+      <% }) %>
+      </tbody>
+      </table>
+      </div>
+      </div>
+      <% } %>
+      <% if(sanctions.length > 0) { %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-fire"></i>
+      </span>
+      <h5>Санкции</h5>
+      <span title="" class="label      tip-left"><%- sanctions.length %></span>
+      </div>
+      <div class="widget-content case-sanctions">
+      </div>
+      </div>
+      <% } %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-book"></i>
+      </span>
+      <h5>Пресса</h5>
+      <span title="" class="label      tip-left">1</span>
+      </div>
+      <div class="widget-content case-media">
+      </div>
+      </div>
+      </div>
+		</script>
+		<script id="sanction-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> Back</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="hero-unit span2">
+      <p><b><%- sanction.ncoName %>, <%- moment(sanction.date,"X").format("DD.MM.YYYY") %></b><p>
+      <p><%- caseitem.get('name') %><p>
+      <p><%- sanction.sanction %><p>
+      <p><%- sanction.source %><p>
+      </div>
+      <div class="span7 right">
+      <% if(sanction.chronology.length > 0){ %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-briefcase"></i>
+      </span>
+      <h5>Хронология</h5>
+      <span title="" class="label      tip-left"><%- sanction.chronology.length %></span>
+      </div>
+      <div class="widget-content chronology">
+      <table class="backgrid">
+      <thead>
+      <tr>
+      <th>Дата</th>
+      <th>Статус</th>
+      <th>Источник</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% _.each(sanction.chronology,function(item){ %>
+      <tr>
+      <td><%= moment(item.stateDate,"X").format("DD.MM.YYYY")%></td>
+      <td><%= item.state %></td>
+      <td><%= item.stateSource %></td>
+      </tr>
+      <% }) %>
+      </tbody>
+      </table>
+      </div>
+      </div>
+      <% } %>
+      <div class="widget-box">
+      <div class="widget-title">
+      <span class="icon">
+      <i class="icon-book"></i>
+      </span>
+      <h5>Пресса</h5>
+      <span title="" class="label      tip-left">1</span>
+      </div>
+      <div class="widget-content sanction-media">
+      </div>
+      </div>
+      </div>
+		</script>
+		<script id="about-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>О проекте</h3><br /><h4>Информационно-аналитическая инициатива “Закрытое общество”</h4></div>
+      <div class="span6 prose">
+      <p>ИАИ “Закрытое общество” - независимая инициатива, ставящая перед собой задачу вести мониторинг давления на институты гражданского общества в России со стороны государственных органов.</p>
+      <p>После принятия в 2012 году так называемого закона об “иностранных агентах”, с начала 2013 года сотни некоммерческих организаций по всей России подверглись массированным проверкам со стороны различных государственных органов, в то же время множество организаций подвергаются иным формам давления. С помощью прокурорских “представлений” и “предостережений”, а также возбуждения административных дел государство пытается заставить правозащитные, экологические, исследовательские и иные автономные от власти организации зарегистрироваться в реестре “иностранных агентов”. Лидеры гражданских организаций, подвергающихся гонениям, считают, что соответствующий закон не соответствует ни российским, ни международным нормам, и регистрация в рестре “организаций, выполняющих функции иностранного агента”, приведет не только к дискредитации российского гражданского общества, но и фактически приведет к закрытию множества организаций, деятельность которых не нравится федеральной или региональной власти.</p>
+      <p>ИАИ “Закрытое общество”, избегая каких-либо субъективных оценок происходящего, считает важным предоставить российскому обществу, СМИ и международному сообществу возможность получить максимально полную картину ситуации для последующего самостоятельного анализа. Основная задача Инициативы - свести воедино всю имеющуюся информацию о ходе проверок и кампании по выявлению “иностранных агентов”. Инициатива “Закрытое общество” также будет проводить собственный анализ собранных данных.</p>
+      <p>ИАИ “Закрытое общество” опирается на поддержку авторитетных гражданских организаций, однако сама деятельность Инициативы осуществляется на безвозмездной основе профессиональными журналистами, правозащитниками, программистами и волонтерами.</p>
+      <p>Следует отметить, что данные ИАИ “Закрытое общество” фундаментально неполны, поскольку далеко не все организации, подвергающиеся давлению, публично сообщают о проверках и санкциях в свой адрес. В сборе информации мы полагаемся как на данные, уже собранные и опубликованные различными организациями и СМИ, так и на первичные данные, получаемые участниками проекта от самих проверяемых организаций (источник данных указан в каждом конкретном случае). Мы призываем все некоммерческие организации и СМИ к сотрудничеству для составления максимально полной базы данных о том давлении, которому подвергаются институты гражданского общества в России.</p>
+      <hr>
+      <p><i class="icon-envelope"></i> <a href="mailto:info@closedsociety.org">info@closedsociety.org</a></p>
+      <p>Над проектом работали:<br />Константин Баранов, Даниил Бейлинсон, Виктория Белокур, Александр Друк, Елизавета Жукова, Рашель Землинская, Лидия Мониава, Григорий Охотин, Анастасия Пастернак, Александр Радзиевский, Ксения Филимонова. Мы также благодарим за участие и советы Дмитрия Макарова (МПД), Арсения Рогинского (Мемориал), Фурката Тишаева (Мемориал), Александра Черкасова (Мемориал).</p>
+      <p>Операторы проекта: <a href="http://www.memo.ru/" target=_blank>Правозащитный Центр “Мемориал”</a>, <a href="http://sos-hrd.org/" target=_blank>Центр оперативного реагирования по защите правозащитников (ЦОР)</a></p>
+      <p>Партнеры проекта: <a href="http://www.memo.ru/" target=_blank>Международное общество “Мемориал”</a>, <a href="http://www.yhrm.org/" target=_blank>Международное Молодежное Правозащитное Движение</a></p>
+      <p>Идея и реализация: <a href="http://data4society.org" target=_blank>Data4Society</a>
+      </div>
+		</script>
+		<script id="calendar-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>Календарь судов</h3><a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="{{site.baseurl}}/assets/img/liberty.png" /></a><br /><h4>Календарь ближайших судебных заседаний по проверкам НКО в партнерском проекте радио "Свобода".</h4></div>
+      <div class="span6 prose">
+      <div id="calendar-wrapper">
+      </div>
+      <script>
+      setTimeout(function(){
+    		$("#calendar-wrapper").eventCalendar({
+					eventsjson: 'http://hidden-springs-4417.herokuapp.com/api/events'
+				})
+			},1000);
+			</script>
+      </div>
+		</script>
+		<script id="news-liberty-page" type="text/template">
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;"><h3>Новости радио "Свобода"</h3><a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="{{site.baseurl}}/assets/img/liberty.png" /></a><br /><h4>Власть против НКО: последние новости.</h4></div>
+      <div class="span6 prose">
+      <div id="news-wrapper">
+      </div>
+      <script>
+      setTimeout(function(){
+    		$('#news-wrapper').feeds({
+    			feeds: {
+        		rss: 'http://www.svoboda.org/api/zpmqpre--qpr',
+			    },
+			    xml: true,
+			    preprocess: function ( feed ) {
+        		this.publishedDate = moment(this.publishedDate).format('DD.MM.YYYY')
+    			},
+    			entryTemplate: '<article><header><p class="date"><!=publishedDate!></p><h2><a href="<!=link!>"><!=title!></a></h2></header><div><!=contentSnippet!></div></article>'
+				});
+			},1000);
+			</script>
+      </div>
+		</script>
+		<script id="report-page" type="text/template">       
+      <div class="row controls">
+      <button class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      <button class="close-stack">×</button>
+      </div>
+      <div class="row">
+      <iframe src="https://docs.google.com/forms/d/1HTQ4tTrUTKuZQ2Anyrc93ggbBJO4UnIKnoHTCh_LHUY/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+      </div>
+		</script>
