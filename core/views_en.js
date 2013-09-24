@@ -159,9 +159,9 @@ ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
     		currentFilter = e.currentTarget.dataset.filter;
     if (_.isUndefined(query)) query = {};
     if (currentFilter == 'all') {
-  		delete query['chronology.state'];
+  		delete query['chronology.stateEn'];
   	} else {
-  		query['chronology.state'] = currentFilter;
+  		query['chronology.stateEn'] = currentFilter;
   	}
   	ncos.rooter.navigate('/en/data/' + e.currentTarget.dataset.section, {trigger: false});
   	ncos.rooter.trigger('pseudo');
