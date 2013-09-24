@@ -163,11 +163,11 @@ ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
   	} else {
   		query['chronology.state'] = currentFilter;
   	}
-  	ncos.rooter.navigate('/data/' + e.currentTarget.dataset.section, {trigger: false});
+  	ncos.rooter.navigate('/en/data/' + e.currentTarget.dataset.section, {trigger: false});
   	ncos.rooter.trigger('pseudo');
-  	ncos.State.notify('show','Загрузка данных...');
+  	ncos.State.notify('show','Loading...');
   	this.collection.fetch().done(function() {
-  		$('#info-alert').append(' Выполнена!')
+  		$('#info-alert').append(' Complete!')
   		setTimeout(function(){
 				ncos.State.notify('hide')
 			}, 1000);
@@ -180,7 +180,7 @@ ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
   	});
   },
   updateCounter: function() {
-  	this.$el.find('span.counter').text('результат: ' + this.options.collection.state.totalRecords);
+  	this.$el.find('span.counter').text('total: ' + this.options.collection.state.totalRecords);
   },
   downloadCsv: function() {
   	var col = [],
