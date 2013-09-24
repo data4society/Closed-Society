@@ -117,7 +117,7 @@ ncos.Routers.Main = Backbone.Router.extend({
   	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','suspended','suspended')
   },
   submissions: function() {
-  	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','notice of violation','submissions')
+  	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','notice of violations','submissions')
   },
   cases: function() {
   	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','administrative case','cases')
