@@ -223,8 +223,8 @@ info.create = function () {
 
 info.update = function (props) {
 	this._div.childNodes.item(2).innerHTML = props ? 
-	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','проверена ') + getValue(props.authorities,'authorities','arr','проверяющие органы: ') + getValue(props.sector,'sector','arr','деятельность: ') + getValue(props.currentCheckState,'state','state','текущий статус: <br />') + getValue(props.check,'more','link') 
-  : 'Нажмите на маркер чтобы получить информацию об НКО';
+	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','inspected on ') + getValue(props.authorities,'authorities','arr','authorities: ') + getValue(props.sector,'sector','arr','sector: ') + getValue(props.currentCheckState,'state','state','current state: <br />') + getValue(props.check,'more','link') 
+  : 'Click on marker to receive additional information about NGO';
 };
 
 info.addTo(map);
