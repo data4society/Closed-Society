@@ -13,7 +13,7 @@ ncos.Views.MainLayout = Backbone.Layout.extend({
   changeLayout: function(v) {
   	this.stackView.pop();
   	ncos.rooter.setPage(v.currentTarget.id);
-  	ncos.rooter.navigate('/' + v.currentTarget.id, {trigger: true});
+  	ncos.rooter.navigate('/en/' + v.currentTarget.id, {trigger: true});
   },
 
 	keydown: function(e){

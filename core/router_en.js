@@ -7,9 +7,6 @@ ncos.Routers.Main = Backbone.Router.extend({
   routes: {
   	'en/map' : 'map',
     'en/about(/)' : 'about',
-    'en/calendar(/)': 'calendar',
-    'en/news-radio-liberty(/)': 'newsLiberty',
-    'en/report(/)': 'report',
     'en/data(/)' : 'dataMain',
 		'en/data/checks(/)' : 'checks',
 		'en/data/suspended(/)' : 'suspended',
@@ -64,7 +61,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 	},
 	
 	map: function() {
-		window.location = 'http://closedsociety.org';
+		window.location = 'http://closedsociety.org/en';
 	},
   index: function() {
   	ncos.rooter.navigate('en/data/checks', {trigger: true});
@@ -73,36 +70,12 @@ ncos.Routers.Main = Backbone.Router.extend({
 		ncos.rooter.navigate('en/data/checks', {trigger: true});
 	},
 	about: function() {
-  	this.dataInit('en/about','checks');
+  	this.dataInit('about','checks');
   	this.fetching.done(function () {
   		var model = new Backbone.Model();
     	var v = new ncos.Views.AboutPage({model:model});
     	ncos.Views.currentLayout.view.addToStack(v);
     });
-	},
-	calendar: function() {
-  	this.dataInit('en/calendar','checks');
-  	this.fetching.done(function () {
-  		var model = new Backbone.Model();
-    	var v = new ncos.Views.CalendarPage({model:model});
-    	ncos.Views.currentLayout.view.addToStack(v);
-    })
-	},
-	newsLiberty: function() {
-  	this.dataInit('en/news-radio-liberty','checks');
-  	this.fetching.done(function () {
-  		var model = new Backbone.Model();
-    	var v = new ncos.Views.NewsLibertyPage({model:model});
-   		ncos.Views.currentLayout.view.addToStack(v);
-    })
-	},
-	report: function() {
-  	this.dataInit('en/report','checks');
-  	this.fetching.done(function () {
-  		var model = new Backbone.Model();
-    	var v = new ncos.Views.ReportPage({model:model});
-    	ncos.Views.currentLayout.view.addToStack(v);
-    })
 	},
   checks: function() {
   	if (window.location.hash != '') {
