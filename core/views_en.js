@@ -141,14 +141,14 @@ ncos.Views.ChecksGrid = Backbone.MainGrid.extend({
   setFiltered: function() {
   	var self = this;
   	this.grid.removeColumn(this.grid.columns.models);
-  	_.each(ncos.Grids.FilteredChecks, function(column) {
+  	_.each(ncos.Grids.FilteredChecksEn, function(column) {
   		self.grid.insertColumn(column);
   	});
   },
   setAllChecks: function() {
   	var self = this;
   	this.grid.removeColumn(this.grid.columns.models);
-  	_.each(ncos.Grids.Checks, function(column) {
+  	_.each(ncos.Grids.ChecksEn, function(column) {
   		self.grid.insertColumn(column);
   	});
   },
