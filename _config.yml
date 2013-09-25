@@ -14,7 +14,7 @@ prose:
       - name: "layout"
         field:
           element: "hidden"
-          value: "default"
+          value: "default_posts"
       - name: "title"
         field:
           element: "text"
