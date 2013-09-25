@@ -257,6 +257,7 @@ a.zoomer {
   right:auto;
   border-left:none;
   border-right:1px solid #ccc;
+  position: fixed;
 }
 .left #content .limiter {
   height: 100%;
@@ -957,4 +958,12 @@ div.prose p {
 	-webkit-font-smoothing: antialiased;
 	text-shadow: 0 1px 1px rgba(0,0,0,0.66);
 	font-weight: 600;
+}
+
+#prose-container .prose {
+	padding: 10px 20px;
+	background: rgba(255, 255, 255, 0.73);
+	-webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9);
+	-moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9);
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9);
 }
