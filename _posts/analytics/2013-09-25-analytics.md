@@ -4,6 +4,7 @@ category: analytics
 published: false
 title: Аналитика
 permalink: analytics
+published: true
 ---
 
 ## Резюме
