@@ -1,10 +1,23 @@
 ---
 layout: none
 ---
-{% include header_posts.html %}
-		<div id="prose-container">
-			<div class="offset4 span7 prose">
-				{{ content }}
-			</div>
+{% include header.html %}
+		<div id="data-container">
+			<div id="stackView" class="stackViewContainer">
+				<div class="stacks">
+					<div class="stack-item">
+					<div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;">
+						<h3>{{ page.title }}</h3>
+						<br>
+						<h4>{{ page.summary }}</h4>
+					</div>
+					<div class="span6 prose">
+						{{ content }}					
+					</div>
+				</div>
+  		</div>
+  		<div id="loader" style="display:none;">
+				<div class="overlay"></div>
+    	</div>
 		</div>
 {% include footer.html %}
