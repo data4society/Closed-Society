@@ -283,9 +283,9 @@ function getValue(val,name,type,label) {
 			return '';
 		}
 	} else if (type == 'state' && val != null) {
-		if (val.state != null && val[0].stateDate == null) {
+		if (val[1] != null && val[0].stateDate == null) {
 			return '<span class="' + name + '">' + label + '<i>' + val[1] + '</i></span>';
-		} else if (val.state != null && val[0].stateDate > 0) {
+		} else if (val[1] != null && val[0].stateDate > 0) {
 			var date = new Date(parseInt(val[0].stateDate)*1000);
 		  return '<span class="' + name + '">' + label + '<i>' + val[1] + ' (' + dateFormat(date, 'DD.MM.YYYY') + ')</i></span>';
 		} else {
