@@ -24,6 +24,8 @@ prose:
         field:
           element: "textarea"
           label: "Summary"
+          value: ""
+          placeholder: "article summary"
       - name: "permalink"
         field:
           element: "text"
