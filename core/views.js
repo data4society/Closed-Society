@@ -13,7 +13,11 @@ ncos.Views.MainLayout = Backbone.Layout.extend({
   changeLayout: function(v) {
   	this.stackView.pop();
   	ncos.rooter.setPage(v.currentTarget.id);
-  	ncos.rooter.navigate('/' + v.currentTarget.id, {trigger: true});
+  	if(v.currentTarget.id == 'en') {
+  		window.location = 'http://closedsociety.org/en';
+  	} else {
+  		ncos.rooter.navigate('/' + v.currentTarget.id, {trigger: true});
+  	}
   },
 
 	keydown: function(e){
