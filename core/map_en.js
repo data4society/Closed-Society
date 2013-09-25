@@ -5,7 +5,7 @@ var map = L.map('map'),
 if (window.location != window.parent.location) iframe = true;
 
 //var iconsPath = iframe ? '../assets/img/markers/' : 'assets/img/markers/',
-var iconsPath = '../assets/img/',
+var iconsPath = '../../assets/img/' : '../assets/img/',
 		attribution = iframe ? '<a class="logo-img" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />According<a href="http://closedsociety.org" target="_blank">Closed Society</a> data.' : '<a class="logo-img" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="../assets/img/liberty.png" /></a><br />Inspections map is special project <br />with <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">Radio Liberty</a>.';
 
 map.spin(true);
@@ -44,7 +44,7 @@ L.spriteIcon = function(marker) {
 		iconSize: [24, 41],
 		shadowsize: [41, 41],
 		iconAnchor: [12, 41],
-		iconUrl: '../assets/img/blank.png',
+		iconUrl: '../../assets/img/blank.png' : '../assets/img/blank.png',
 		shadowUrl: L.Icon.Default.imagePath + "/marker-shadow.png"
 	});
 };
