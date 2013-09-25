@@ -99,8 +99,7 @@ ncos.Routers.Main = Backbone.Router.extend({
   	this.list('Checks','FilteredChecksEn','data','Inspections','ChecksGrid','other','other')
   },
   checksView: function(id) {
-  	console.log('d')
-    this.view(id,'checks','data','Check','CheckPage',ncos.Grids.CheckSubGridsEn)
+    this.view(id,'data','checks','Check','CheckPage',ncos.Grids.CheckSubGridsEn)
     this.history.pop();
     ncos.rooter.navigate('en/data/checks/#' + id, {trigger: false})
   },
