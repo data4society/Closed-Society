@@ -1,10 +1,9 @@
 ---
 layout: default
 category: analytics
-published: false
+published: true
 title: Аналитика
 permalink: analytics
-published: true
 ---
 
 ## Резюме
