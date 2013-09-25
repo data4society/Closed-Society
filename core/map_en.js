@@ -6,7 +6,7 @@ if (window.location != window.parent.location) iframe = true;
 
 //var iconsPath = iframe ? '../assets/img/markers/' : 'assets/img/markers/',
 var iconsPath = '../assets/img/',
-		attribution = iframe ? '<a class="logo-img" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />According<a href="http://closedsociety.org" target="_blank">Closed Society</a> data.' : '<a class="logo-img" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br />Inspections map co-projected with <br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">Radio Liberty</a>.';
+		attribution = iframe ? '<a class="logo-img" href="http://closedsociety.org" target="_blank">ClosedSociety.org</a><br />According<a href="http://closedsociety.org" target="_blank">Closed Society</a> data.' : '<a class="logo-img" href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank"><img src="assets/img/liberty.png" /></a><br />Inspections map is special project with <br />с <a href="http://www.svoboda.org/section/authorities-against-ngo/3228.html" target="_blank">Radio Liberty</a>.';
 
 map.spin(true);
 
