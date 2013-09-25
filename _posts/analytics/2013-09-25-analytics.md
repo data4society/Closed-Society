@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_posts
 category: analytics
 published: true
 title: Аналитика
