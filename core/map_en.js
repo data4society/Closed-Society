@@ -97,8 +97,9 @@ var legendposition = iframe ? 'bottomleft' : 'bottomright',
 		legend = L.control({position:legendposition});
 
 legend.onAdd = function (map) {
-	this._div = L.DomUtil.create('div', 'legend');
-	this._div.innerHTML = '<ul id="legend"> \
+	this._div = L.DomUtil.create('div', 'legend-en');
+	this._div.innerHTML = '<span>NGOs by sanctions:</span> \
+		<ul id="legend"> \
 		<li><span class="red"></span> - Suspended</li> \
 		<li><span class="violet"></span> - Administrative cases</li> \
 		<li><span class="orange"></span> - Notice of violations</li> \
