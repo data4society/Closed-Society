@@ -1,18 +1,24 @@
 ---
 layout: none
 ---
-{% include header.html %}
+{% include header_page.html %}
 		<div id="data-container">
 			<div id="stackView" class="stackViewContainer">
 				<div class="stacks">
 					<div class="stack-item prose">
-					<div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;">
-						<h3>{{ page.title }}</h3>
-						<br>
-						<h4>{{ page.summary }}</h4>
-					</div>
-					<div class="span6 prose">
-						{{ content }}					
+					<div class="row controls">
+      			<button href="http://closedsociety.org/data" class="btn" id="goback"><i class="icon-arrow-left"></i> К базе данных</button>
+      			<button href="http://closedsociety.org/data" class="close-stack">×</button>
+      		</div>
+      		<div class="row">
+						<div class="span2" style="padding: 0px 0px 10px 30px;background: #fff;">
+							<h3>{{ page.title }}</h3>
+							<br>
+							<h4>{{ page.summary }}</h4>
+						</div>
+						<div class="span6 prose">
+							{{ content }}					
+						</div>
 					</div>
 				</div>
   		</div>
