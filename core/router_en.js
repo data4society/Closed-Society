@@ -81,26 +81,26 @@ ncos.Routers.Main = Backbone.Router.extend({
   	if (window.location.hash != '') {
   		ncos.rooter.navigate('en/data/checks/' + window.location.hash.substr(1), {trigger: true});
     }
-    this.list('Checks','ChecksEn','checks','Inspections','ChecksGrid')
+    this.list('Checks','ChecksEn','data','Inspections','ChecksGrid')
   },
   warnings: function() {
-    this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','warning','warnings')
+    this.list('Checks','FilteredChecksEn','data','Inspections','ChecksGrid','warning','warnings')
   },
   suspended: function() {
-  	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','suspended','suspended')
+  	this.list('Checks','FilteredChecksEn','data','Inspections','ChecksGrid','suspended','suspended')
   },
   submissions: function() {
-  	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','notice of violations','submissions')
+  	this.list('Checks','FilteredChecksEn','data','Inspections','ChecksGrid','notice of violations','submissions')
   },
   cases: function() {
-  	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','administrative case','cases')
+  	this.list('Checks','FilteredChecksEn','data','Inspections','ChecksGrid','administrative case','cases')
   },
   other: function() {
-  	this.list('Checks','FilteredChecksEn','checks','Inspections','ChecksGrid','other','other')
+  	this.list('Checks','FilteredChecksEn','data','Inspections','ChecksGrid','other','other')
   },
   checksView: function(id) {
   	console.log('d')
-    this.view(id,'checks','checks','Check','CheckPage',ncos.Grids.CheckSubGridsEn)
+    this.view(id,'checks','data','Check','CheckPage',ncos.Grids.CheckSubGridsEn)
     this.history.pop();
     ncos.rooter.navigate('en/data/checks/#' + id, {trigger: false})
   },
