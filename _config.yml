@@ -20,6 +20,11 @@ prose:
           element: "text"
           label: "Title"
           value: ""
+      - name: "summary"
+        field:
+          element: "textarea"
+          label: "Summary"
+          value: ""
       - name: "permalink"
         field:
           element: "text"
