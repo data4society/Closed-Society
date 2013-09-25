@@ -4,7 +4,7 @@ category: analytics
 published: true
 title: Аналитика
 permalink: analytics
-summary: null
+summary: "что-нибудь"
 ---
 
 ## Резюме
