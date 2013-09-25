@@ -141,15 +141,15 @@ var ShareControl = L.Control.extend({
 	_shareClick: function(e) {
 		L.DomEvent.stop(e);
 		if (this._popup) return this._clickOut(e);
-		var url = this.options.url || 'http://closedsociety.org',
-				text = this.options.text || 'Monitor pressure on Russian NGOs',
-				embed = this.options.embed || 'http://closedsociety.org/map',
+		var url = this.options.url || 'http://closedsociety.org/en',
+				text = this.options.text || 'State pressure on NGOs monitoring',
+				embed = this.options.embed || 'http://closedsociety.org/en/map',
 				twitter = 'http://twitter.com/intent/tweet?status=' + encodeURIComponent(text + '\n' + url),
 				facebook = 'https://www.facebook.com/sharer.php?u=' + encodeURIComponent(url) + '&t=' + encodeURIComponent(text),
 				share = "<a class='leaflet-popup-close-button' href='#close'>×</a>" +
-					"<h3>Поделиться этой картой</h3>" + "<div class='share-buttons'><a class='share-facebook icon icon-facebook' target='_blank' href='" + 
+					"<h3>Share this map</h3>" + "<div class='share-buttons'><a class='share-facebook icon icon-facebook' target='_blank' href='" + 
 					facebook + "'>Facebook</a>" + "<a class='share-twitter icon icon-twitter' target='_blank' href='" + 
-					twitter + "'>Twitter</a></div>" + "<h3>Получить embed код</h3>" + "<small>Скопирйте и вставьте этот HTML код на вашу страницу.</small>" +
+					twitter + "'>Twitter</a></div>" + "<h3>Embed code</h3>" + "<small>Copy and paste this HTML code into your page.</small>" +
           "<textarea rows=4>&lt;iframe width='700' height='500' allowfullscreen='true' frameBorder='0' src='" + embed + "'&gt;&lt;/iframe&gt;</textarea>";
 		this._popup = L.marker(this._map.getCenter(), {
 			zIndexOffset: 10000,
