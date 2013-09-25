@@ -223,7 +223,7 @@ info.create = function () {
 
 info.update = function (props) {
 	this._div.childNodes.item(2).innerHTML = props ? 
-	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','inspected on ') + getValue(props.authorities,'authorities','arr','authorities: ') + getValue(props.sector,'sector','arr','sector: ') + getValue(props.currentCheckState,'state','state','current state: <br />') + getValue(props.check,'more','link') 
+	getValue(props.name,'name','str') + getValue(props.formatted_address,'address','str') + getValue(props.checkDate,'check-date','date','inspected on ') + getValue(props.authorities,'authorities','arr','authorities: ') + getValue(props.sector,'sector','arr','sector: ') + getValue([props.currentCheckState,props.currentCheckStateEn],'state','state','current state: <br />') + getValue(props.check,'more','link') 
   : 'Click on marker to receive additional information about NGO';
 };
 
@@ -283,11 +283,11 @@ function getValue(val,name,type,label) {
 			return '';
 		}
 	} else if (type == 'state' && val != null) {
-		if (val.state != null && val.stateDate == null) {
-			return '<span class="' + name + '">' + label + '<i>' + val.state + '</i></span>';
-		} else if (val.state != null && val.stateDate > 0) {
-			var date = new Date(parseInt(val.stateDate)*1000);
-		  return '<span class="' + name + '">' + label + '<i>' + val.state + ' (' + dateFormat(date, 'DD.MM.YYYY') + ')</i></span>';
+		if (val.state != null && val[0].stateDate == null) {
+			return '<span class="' + name + '">' + label + '<i>' + val[1] + '</i></span>';
+		} else if (val.state != null && val[0].stateDate > 0) {
+			var date = new Date(parseInt(val[0].stateDate)*1000);
+		  return '<span class="' + name + '">' + label + '<i>' + val[1] + ' (' + dateFormat(date, 'DD.MM.YYYY') + ')</i></span>';
 		} else {
 			return '';
 		}
