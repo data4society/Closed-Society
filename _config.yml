@@ -22,7 +22,7 @@ prose:
           value: ""
       - name: "summary"
         field:
-          element: "textarea"
+          element: "text"
           label: "Summary"
           value: ""
           placeholder: "article summary"
