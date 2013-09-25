@@ -292,7 +292,7 @@ function getValue(val,name,type,label) {
 			return '';
 		}
 	} else if (type == 'link' && val != null) {
-		return iframe ? '<span class="' + name + '"><a href="http://closedsociety.org/en/data/checks/#' + val + '" target="_blank">подробнее -></a></span>' : '<span class="' + name + '"><a href="http://closedsociety.org/data/checks/#' + val + '">подробнее -></a></span>';
+		return iframe ? '<span class="' + name + '"><a href="http://closedsociety.org/en/data/checks/#' + val + '" target="_blank">more -></a></span>' : '<span class="' + name + '"><a href="http://closedsociety.org/en/data/checks/#' + val + '">more -></a></span>';
 	} else {
 		return '';
 	}

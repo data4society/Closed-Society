@@ -158,6 +158,7 @@ a.logo-img {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	background-image:none;
 }
 
 .share-buttons a.share-facebook {
