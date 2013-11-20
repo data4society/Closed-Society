@@ -6,6 +6,7 @@ ncos.Routers.Main = Backbone.Router.extend({
 	},
   routes: {
   	'map' : 'map',
+  	'analytics': 'analytics',
     'about(/)' : 'about',
     'calendar(/)': 'calendar',
     'news-radio-liberty(/)': 'newsLiberty',
@@ -65,6 +66,9 @@ ncos.Routers.Main = Backbone.Router.extend({
 	
 	map: function() {
 		window.location = 'http://closedsociety.org';
+	},
+	analytics: function() {
+		window.location = 'http://closedsociety.org/analytics';
 	},
   index: function() {
   	ncos.rooter.navigate('/data/checks', {trigger: true});
