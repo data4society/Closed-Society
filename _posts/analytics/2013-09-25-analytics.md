@@ -2,9 +2,9 @@
 layout: default_posts
 category: analytics
 published: true
-title: Закрытое общество: первый год
+title: "Закрытое общество: первый год"
 permalink: analytics
-summary: Закон об иностранных агентах: результаты первого года проверок
+summary: "Закон об иностранных агентах: результаты первого года проверок"
 ---
 
 ## Резюме
