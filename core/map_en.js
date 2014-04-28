@@ -102,9 +102,9 @@ legend.onAdd = function (map) {
 		<ul id="legend"> \
 		<li><span class="red"></span> - Suspended</li> \
 		<li><span class="violet"></span> - Administrative cases</li> \
-		<li><span class="orange"></span> - Notice of violations</li> \
+		<li><span class="orange"></span> - Notices of violations</li> \
 		<li><span class="yellow"></span> - Warnings</li> \
-		<li><span class="green"></span> - Other</li> \
+		<li><span class="green"></span> - Other sanctions</li> \
 		<li><span class="blue"></span> - No data</li> \
 		</ul>';
 	return this._div;
@@ -203,19 +203,19 @@ info.create = function () {
 	this._div.innerHTML = '<div id="filter-wrapper-en"> \
 		<ul id="filter"> \
 		<li data-filter="all" class="all active">All inspections</li> \
-		<li data-filter="Prosecutor office">Prosecutor office</li> \
+		<li data-filter="Prosecutor office">Prosecutor’s office</li> \
 		<li data-filter="Ministry of Justice">Ministry of Justice</li> \
-		<li data-filter="Interior Ministry">Interior Ministry</li> \
-		<li data-filter="Emergency Ministry">Emergency Ministry</li> \
-		<li data-filter="Migration Sercive">Migration Sercive</li> \
+		<li data-filter="Interior Ministry">Ministry of Interior</li> \
+		<li data-filter="Emergency Ministry">Ministry of Emergency Situations</li> \
+		<li data-filter="Migration Sercive">Migration Service</li> \
 		<li data-filter="Tax Service">Tax Service</li> \
 		<li data-filter="Security Service">Security Service</li> \
 		<li data-filter="Customs Service">Customs Service</li> \
 		<li data-filter="Drug Control Service">Drug Control Service</li> \
-		<li data-filter="ROSKOMNADZOR">ROSKOMNADZOR</li> \
-		<li data-filter="ROSPOTREBNADZOR">ROSPOTREBNADZOR</li> \
-		<li data-filter="Economical Crimes Department">Economical Crimes Department</li> \
-		<li data-filter="Anti-Extremism Department">Anti-Extremism Department</li> \
+		<li data-filter="ROSKOMNADZOR">Media Oversight Service</li> \
+		<li data-filter="ROSPOTREBNADZOR">Sanitary Service</li> \
+		<li data-filter="Economical Crimes Department">Department for Economic Crimes</li> \
+		<li data-filter="Anti-Extremism Department">Center for Combatting Extremism</li> \
 		</ul> \
 		</div> \
 		<div id="info"> \
